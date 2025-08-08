@@ -4,16 +4,16 @@ import MobileMenu from "./ui/mobile-menu";
 
 export function Navbar() {
   return (
-    <header className="absolute w-full flex justify-around items-center py-6">
+    <header className="fixed w-full flex justify-between items-center py-6 px-8 md:px-32 z-40">
       <Link to="/" className="">
-        LOGO
+        <img src={"/LOGO.png"} className="w-36" loading="lazy" />
       </Link>
       <nav className="hidden md:flex items-center justify-around gap-20">
         {navItems.map((item) => (
           <Link
             key={item.href}
             to={item.href}
-            className="text-sm font-medium transition ease-in-out duration-700 text-A"
+            className="third-text font-medium text-A "
           >
             {item.label}
           </Link>
