@@ -5,9 +5,20 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="snap-start h-screen flex flex-col justify-center md:px-32 px-8 text-white bg-red-300"
+      className="snap-start h-screen flex flex-col justify-center md:px-32 px-8 text-white"
     >
-      <div className="flex flex-col md:flex-row md:items-end gap-2 py-5">
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+      >
+        <source src="/src/assets/HOME/background.webm" type="video/webm" />
+        <source src="/src/assets/HOME/background.mp4" type="video/mp4" />
+      </video>
+      <div className="relative z-10 flex flex-col md:flex-row md:items-end gap-2 py-5">
         <h1 className="first-text md:max-w-52">
           Welcome to Holiday Tour and Travel
         </h1>
