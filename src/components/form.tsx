@@ -69,10 +69,6 @@ export default function ContactForm() {
                   {...field}
                   className="bg-gray-a px-4 py-2"
                 />
-                {/* <input
-                  placeholder="Enter your name"
-                  className="bg-gray-a px-6 py-2"
-                /> */}
               </FormControl>
               <FormMessage />
             </FormItem>
