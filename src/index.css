@@ -42,6 +42,7 @@
   --color-A: rgba(47, 92, 149, 1);
   --color-gray-a: rgba(236, 228, 223, 1);
   --color-white-a: rgba(249, 243, 239, 1);
+  --font-BasisGrotesqueArabicPro: "BasisGrotesqueArabicPro", sans-serif;
 }
 
 :root {
@@ -115,7 +116,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 font-BasisGrotesqueArabicPro;
   }
   body {
     @apply bg-background text-foreground;
@@ -125,13 +126,16 @@
     @apply text-3xl;
   }
   .first-text {
-    @apply text-3xl;
+    @apply text-xl md:text-3xl;
   }
   .second-text {
-    @apply text-base;
+    @apply text-xl;
   }
   .third-text {
-    @apply text-sm;
+    @apply text-base;
+  }
+  .fourth-text {
+    @apply text-xs;
   }
   /* Animation */
   .the-transition {
@@ -143,4 +147,14 @@
   .hero-bg {
     @apply bg-cover bg-center bg-no-repeat relative;
   }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@font-face {
+  font-family: "BasisGrotesqueArabicPro";
+  src: url("/FONTS/BasisGrotesqueArabicPro-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }

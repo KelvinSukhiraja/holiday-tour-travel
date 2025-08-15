@@ -16,7 +16,7 @@ const Contact = () => {
       <div className="px-8 md:px-32 flex flex-col justify-center items-center w-full gap-5 bg-white-a text-A">
         <div className="flex flex-col gap-3">
           <h1 className="first-text">Reach Out to Explore</h1>
-          <p className="third-text">
+          <p className="fourth-text">
             From tranquil getaways to thrilling adventures, we're here to help
             craft a journey made just for you. Reach out and let’s start
             planning your next unforgettable escape.

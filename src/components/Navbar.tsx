@@ -41,7 +41,7 @@ export function Navbar() {
           <Link
             key={item.href}
             to={item.href}
-            className="third-text font-medium text-A"
+            className="fourth-text font-medium text-A"
           >
             {item.label}
           </Link>

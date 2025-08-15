@@ -16,7 +16,7 @@ const MobileMenu = () => {
             className="hidden md:flex max-h-screen w-full object-cover object-center"
             loading="lazy"
           />
-          <div className="text-white flex flex-col justify-between p-20 h-screen">
+          <div className="text-white flex flex-col justify-around md:justify-between p-20 h-screen">
             <nav className="first-text w-full flex flex-col gap-8">
               {navItems.map((item) => (
                 <Link
@@ -28,7 +28,7 @@ const MobileMenu = () => {
                 </Link>
               ))}
             </nav>
-            <div className="second-text flex flex-col gap-3 py-5">
+            <div className="third-text flex flex-col gap-3 py-5">
               <span>Stay Connected</span>
               <ul className="flex flex-wrap space-x-8 space-y-3">
                 <Link to="/" className="the-hover the-transition">

@@ -2,7 +2,6 @@ import { MotionWrapper } from "@/components/MotionWrapper";
 import { Separator } from "@/components/ui/separator";
 import {
   fadeVariants,
-  scaleToFull,
   slideRightVariants,
   slideUpVariants,
 } from "@/lib/animation";
@@ -48,7 +47,7 @@ const Hero = () => {
               type: "spring",
             }}
           >
-            <span className="third-text max-w-xs">
+            <span className="fourth-text max-w-xs">
               We plan and manage travel experiences for individuals, groups, and
               companies.
             </span>
@@ -61,7 +60,7 @@ const Hero = () => {
           transition={{ duration: 2, ease: "easeInOut" }}
           style={{ originX: 0 }}
         />
-        <span className="third-text max-w-3xs text-end self-end py-5">
+        <span className="fourth-text max-w-3xs text-end self-end py-5">
           <MotionWrapper variants={fadeVariants}>
             Discover breathtaking destinations and the charm of every season.
           </MotionWrapper>
@@ -71,7 +70,7 @@ const Hero = () => {
             href={"#intro"}
             className="flex items-center group the-transition the-hover"
           >
-            <span className="third-text">
+            <span className="fourth-text">
               <MotionWrapper variants={fadeVariants}>
                 Start Exploring
               </MotionWrapper>

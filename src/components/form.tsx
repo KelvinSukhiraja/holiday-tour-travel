@@ -13,13 +13,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectGroup,
+//   SelectItem,
+//   SelectLabel,
+//   SelectTrigger,
+//   SelectValue,
+// } from "./ui/select";
+import Select from "react-select";
 import countries from "world-countries";
 
 const formSchema = z.object({
@@ -50,9 +53,24 @@ export default function ContactForm() {
   }
 
   const countryList = countries.map((c) => ({
-    name: c.name.common,
-    code: c.cca2,
+    label: c.name.common,
+    value: c.cca2,
   }));
+
+  const selectStyles = {
+    control: (base) => ({
+      ...base,
+      backgroundColor: "#ECE4DF", // Tailwind bg-gray-200
+      borderRadius: 0, // rounded-none
+      borderColor: "#d1d5db", // border-gray-300
+      boxShadow: "none",
+      "&:hover": { borderColor: "#9ca3af" },
+    }),
+    menu: (base) => ({
+      ...base,
+      borderRadius: 0,
+    }),
+  };
 
   return (
     <Form {...form}>
@@ -119,21 +137,29 @@ export default function ContactForm() {
             <FormItem>
               <FormLabel>Country</FormLabel>
               <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                {/* <Select onValueChange={field.onChange} value={field.value}>
                   <SelectTrigger className="w-full bg-gray-a px-4 py-2">
                     <SelectValue placeholder="Select a country" />
                   </SelectTrigger>
-                  <SelectContent className="max-h-60">
+                  <SelectContent className="overflow-y-auto max-h-[10rem]">
                     {countryList.map((country) => (
                       <SelectItem key={country.code} value={country.name}>
                         {country.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                  <SelectContent >
+                    <SelectGroup>
+                      <SelectLabel>Fruits</SelectLabel>
+                      <SelectItem value="apple">Apple</SelectItem>
+                      <SelectItem value="banana">Banana</SelectItem>
+                      <SelectItem value="blueberry">Blueberry</SelectItem>
+                      <SelectItem value="grapes">Grapes</SelectItem>
+                      <SelectItem value="pineapple">Pineapple</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select> */}
+                <Select options={countryList} styles={selectStyles} />
               </FormControl>
               <FormMessage />
             </FormItem>
