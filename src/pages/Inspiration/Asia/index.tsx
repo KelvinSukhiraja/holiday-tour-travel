@@ -1,3 +1,3 @@
-export const index = () => {
-  return <div>index</div>;
+export const Asia = () => {
+  return <div></div>;
 };

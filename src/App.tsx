@@ -4,6 +4,7 @@ import { Navbar } from "./components/Navbar";
 import Homepage from "./pages/Homepage";
 import AboutUs from "./pages/About-Us";
 import Inspiration from "./pages/Inspiration";
+import TravelFair from "./pages/Travel-Fair";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/inspiration" element={<Inspiration />} />
         <Route path="/blogs" element={<BlogList />} />
+        <Route path="/travel-fair" element={<TravelFair />} />
       </Routes>
     </>
   );
