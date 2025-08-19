@@ -1,6 +1,3 @@
-// components/forms/ContactForm.tsx
-"use client";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -14,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -51,10 +47,6 @@ const formSchema = z.object({
   travelPreference: z.string().min(1, "Please select a travel preference"),
   travelType: z.string().min(1, "Please select a travel type"),
   budget: z.string().min(1, "Please select a budget"),
-  message: z
-    .string()
-    .min(10, "Message must be at least 10 characters")
-    .optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -70,7 +62,6 @@ export default function TravelForm() {
       travelPreference: "",
       travelType: "",
       budget: "",
-      message: "",
     },
   });
 
@@ -280,7 +271,7 @@ export default function TravelForm() {
               <FormLabel>Budget per Person</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <SelectTrigger className="bg-gray-a h-12">
+                  <SelectTrigger className="bg-gray-a p-5 w-full">
                     <SelectValue placeholder="Select your budget range" />
                   </SelectTrigger>
                 </FormControl>
@@ -298,25 +289,6 @@ export default function TravelForm() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Message */}
-        <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Message (Optional)</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us anything else you'd like us to know."
-                  className="resize-none bg-gray-a"
-                  {...field}
-                />
-              </FormControl>
               <FormMessage />
             </FormItem>
           )}
