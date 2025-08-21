@@ -1,7 +1,7 @@
-// components/forms/ContactForm.tsx
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
 import {
   Form,
   FormField,
@@ -11,19 +11,24 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectGroup,
-//   SelectItem,
-//   SelectLabel,
-//   SelectTrigger,
-//   SelectValue,
-// } from "./ui/select";
-import Select from "react-select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 import countries from "world-countries";
+import { Textarea } from "./ui/textarea";
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -48,29 +53,17 @@ export default function ContactForm() {
   });
 
   function onSubmit(values: FormValues) {
+    // Here you would typically send the data to your API
     console.log(values);
-    // send to API or CMS webhook
+    alert("Form submitted! Check the console for the data.");
   }
 
-  const countryList = countries.map((c) => ({
-    label: c.name.common,
-    value: c.cca2,
-  }));
-
-  const selectStyles = {
-    control: (base) => ({
-      ...base,
-      backgroundColor: "#ECE4DF", // Tailwind bg-gray-200
-      borderRadius: 0, // rounded-none
-      borderColor: "#d1d5db", // border-gray-300
-      boxShadow: "none",
-      "&:hover": { borderColor: "#9ca3af" },
-    }),
-    menu: (base) => ({
-      ...base,
-      borderRadius: 0,
-    }),
-  };
+  const countryList = countries
+    .map((c) => ({
+      label: c.name.common,
+      value: c.name.common,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   return (
     <Form {...form}>
@@ -134,33 +127,57 @@ export default function ContactForm() {
           control={form.control}
           name="country"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="flex flex-col">
               <FormLabel>Country</FormLabel>
-              <FormControl>
-                {/* <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className="w-full bg-gray-a px-4 py-2">
-                    <SelectValue placeholder="Select a country" />
-                  </SelectTrigger>
-                  <SelectContent className="overflow-y-auto max-h-[10rem]">
-                    {countryList.map((country) => (
-                      <SelectItem key={country.code} value={country.name}>
-                        {country.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                  <SelectContent >
-                    <SelectGroup>
-                      <SelectLabel>Fruits</SelectLabel>
-                      <SelectItem value="apple">Apple</SelectItem>
-                      <SelectItem value="banana">Banana</SelectItem>
-                      <SelectItem value="blueberry">Blueberry</SelectItem>
-                      <SelectItem value="grapes">Grapes</SelectItem>
-                      <SelectItem value="pineapple">Pineapple</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select> */}
-                <Select options={countryList} styles={selectStyles} />
-              </FormControl>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-full justify-between rounded-none bg-gray-a h-12",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? countryList.find((c) => c.value === field.value)
+                            ?.label
+                        : "Select a country"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search country..." />
+                    <CommandList>
+                      <CommandEmpty>No country found.</CommandEmpty>
+                      <CommandGroup>
+                        {countryList.map((country) => (
+                          <CommandItem
+                            key={country.value}
+                            value={country.value}
+                            onSelect={() => {
+                              form.setValue("country", country.value);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                field.value === country.value
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                            {country.label}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <FormMessage />
             </FormItem>
           )}

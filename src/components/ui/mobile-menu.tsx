@@ -1,6 +1,6 @@
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
-import { navItems } from "@/lib/utils";
+import { navItems, socials } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
 const MobileMenu = () => {
@@ -31,21 +31,11 @@ const MobileMenu = () => {
             <div className="third-text flex flex-col gap-3 py-5">
               <span>Stay Connected</span>
               <ul className="flex flex-wrap space-x-8 space-y-3">
-                <Link to="/" className="the-hover the-transition">
-                  INSTAGRAM
-                </Link>
-                <Link to="/" className="the-hover the-transition">
-                  FACEBOOK
-                </Link>
-                <Link to="/" className="the-hover the-transition">
-                  LINKEDIN
-                </Link>
-                <Link to="/" className="the-hover the-transition">
-                  YOUTUBE
-                </Link>
-                <Link to="/" className="the-hover the-transition">
-                  TIKTOK
-                </Link>
+                {socials.map((social) => (
+                  <Link to={social.link} className="the-hover the-transition">
+                    {social.label}
+                  </Link>
+                ))}
               </ul>
             </div>
           </div>

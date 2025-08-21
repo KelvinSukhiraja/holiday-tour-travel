@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/command";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { cn, sections, travels_type } from "@/lib/utils";
+import { cn, months, sections, travels_type } from "@/lib/utils";
 import countries from "world-countries";
 import {
   Select,
@@ -37,7 +37,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"; // Corrected import path
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -47,6 +47,8 @@ const formSchema = z.object({
   travelPreference: z.string().min(1, "Please select a travel preference"),
   travelType: z.string().min(1, "Please select a travel type"),
   budget: z.string().min(1, "Please select a budget"),
+  startMonth: z.string().min(1, "Please select a start month"),
+  endMonth: z.string().min(1, "Please select an end month"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -62,6 +64,8 @@ export default function TravelForm() {
       travelPreference: "",
       travelType: "",
       budget: "",
+      startMonth: "",
+      endMonth: "",
     },
   });
 
@@ -153,7 +157,7 @@ export default function TravelForm() {
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-full justify-between bg-gray-a h-12",
+                        "w-full justify-between rounded-none bg-gray-a h-12",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -282,6 +286,9 @@ export default function TravelForm() {
                     <SelectItem value="5-10M">
                       IDR 5,000,000 - IDR 10,000,000
                     </SelectItem>
+                    <SelectItem value="5-10M">
+                      IDR 10,000,000 - IDR 15,000,000
+                    </SelectItem>
                     <SelectItem value="10-20M">
                       IDR 10,000,000 - IDR 20,000,000
                     </SelectItem>
@@ -294,9 +301,73 @@ export default function TravelForm() {
           )}
         />
 
+        {/* Preferred Travel Month Range */}
+        <div className="flex flex-col gap-y-6 md:flex-row md:space-x-4">
+          <FormField
+            control={form.control}
+            name="startMonth"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Preferred Travel Month</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="bg-gray-a p-5 w-full">
+                      <SelectValue placeholder="Select start month" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {months.map((month) => (
+                      <SelectItem key={month} value={month}>
+                        {month}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="endMonth"
+            render={({ field }) => (
+              <FormItem className="flex-1 mt-6 md:mt-0">
+                <FormLabel className="md:invisible">End Month</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="bg-gray-a p-5 w-full">
+                      <SelectValue placeholder="Select end month" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {months.map((month) => (
+                      <SelectItem key={month} value={month}>
+                        {month}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         {/* Submit */}
         <div className="w-full flex justify-end pt-4">
-          <Button type="submit" size="lg" className="bg-A hover:bg-A/90">
+          <Button
+            type="submit"
+            size="lg"
+            variant={"ghost"}
+            className="hover:bg-A hover:text-white ease-in-out duration-300"
+          >
             Send Message
           </Button>
         </div>

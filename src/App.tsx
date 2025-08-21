@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage";
 import AboutUs from "./pages/About-Us";
 import Inspiration from "./pages/Inspiration";
 import TravelFair from "./pages/Travel-Fair";
+import ContactUs from "./pages/Contact-Us";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/inspiration" element={<Inspiration />} />
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/travel-fair" element={<TravelFair />} />
+        <Route path="/contact-us" element={<ContactUs />} />
       </Routes>
     </>
   );

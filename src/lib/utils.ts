@@ -102,3 +102,41 @@ export const travels_type = [
     value: "Religious",
   },
 ];
+
+export const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+export const socials = [
+  {
+    label: "INSTAGRAM",
+    link: "/",
+  },
+  {
+    label: "FACEBOOK",
+    link: "/",
+  },
+  {
+    label: "LINKEDIN",
+    link: "/",
+  },
+  {
+    label: "YOUTUBE",
+    link: "/",
+  },
+  {
+    label: "TIKTOK",
+    link: "/",
+  },
+];
