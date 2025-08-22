@@ -36,7 +36,7 @@ export default function HeroSection({
   ctaText = "Start Exploring",
   ctaHref = "#",
   background,
-  backgroundClassName = "absolute top-0 left-0 w-full h-full object-cover",
+  backgroundClassName = "absolute top-0 left-0 w-full h-full object-cover brightness-75",
   className = "",
 }: HeroSectionProps) {
   return (
@@ -86,7 +86,7 @@ export default function HeroSection({
               variants={slideRightVariants}
               transition={{ type: "spring" }}
             >
-              <span className="fourth-text max-w-xs">{subtitle}</span>
+              <span className="fourth-text">{subtitle}</span>
             </MotionWrapper>
           )}
         </div>

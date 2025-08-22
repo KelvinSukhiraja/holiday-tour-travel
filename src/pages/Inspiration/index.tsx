@@ -2,6 +2,7 @@ import Card from "@/components/Card";
 import { Separator } from "@/components/ui/separator";
 import { sections } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Inspiration = () => {
   const MotionSeparator = motion(Separator);
@@ -33,11 +34,13 @@ const Inspiration = () => {
                   className="bg-A mx-3 md:mx-10"
                 />
               )}
-              <Card
-                image={section.image}
-                title={section.title}
-                description={section.description}
-              />
+              <Link to={`/blogs/${section.id}`}>
+                <Card
+                  image={section.image}
+                  title={section.title}
+                  description={section.description}
+                />
+              </Link>
             </div>
           ))}
         </div>

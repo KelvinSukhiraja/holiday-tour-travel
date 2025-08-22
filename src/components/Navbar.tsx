@@ -28,7 +28,7 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed w-full flex justify-between items-center py-6 px-8 md:px-32 z-40 bg-white-a/60 backdrop-blur-md transition-transform duration-300 ${
+      className={`fixed w-full flex justify-between items-center py-6 px-8 md:px-32 z-40 backdrop-blur-md transition-transform duration-300 ${
         show ? "translate-y-0" : "-translate-y-full"
       }`}
     >

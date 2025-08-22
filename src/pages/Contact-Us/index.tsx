@@ -8,8 +8,7 @@ const ContactUs = () => {
       <section className="min-h-screen">
         <HeroSection
           title="Travel Fair Form"
-          subtitle="Your next adventure starts here,
-just fill in a few details."
+          subtitle="Your next adventure starts here, just fill in a few details."
           subtext="Don’t miss out on limited-time offers and special packages."
           ctaText="Get Started"
           ctaHref="#form"

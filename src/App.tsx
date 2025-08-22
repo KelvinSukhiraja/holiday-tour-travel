@@ -6,6 +6,7 @@ import AboutUs from "./pages/About-Us";
 import Inspiration from "./pages/Inspiration";
 import TravelFair from "./pages/Travel-Fair";
 import ContactUs from "./pages/Contact-Us";
+import Blog from "./pages/Inspiration/Blog";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/travel-fair" element={<TravelFair />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/blogs/:id" element={<Blog />} />
       </Routes>
     </>
   );
