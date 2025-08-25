@@ -286,7 +286,7 @@ export default function TravelForm() {
                     <SelectItem value="5-10M">
                       IDR 5,000,000 - IDR 10,000,000
                     </SelectItem>
-                    <SelectItem value="5-10M">
+                    <SelectItem value="10-50M">
                       IDR 10,000,000 - IDR 15,000,000
                     </SelectItem>
                     <SelectItem value="10-20M">

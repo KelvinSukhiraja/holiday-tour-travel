@@ -41,6 +41,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-A: rgba(47, 92, 149, 1);
   --color-gray-a: rgba(236, 228, 223, 1);
+  --color-gray-b: rgba(195, 185, 178, 1);
   --color-white-a: rgba(249, 243, 239, 1);
   --font-BasisGrotesqueArabicPro: "BasisGrotesqueArabicPro", sans-serif;
 }

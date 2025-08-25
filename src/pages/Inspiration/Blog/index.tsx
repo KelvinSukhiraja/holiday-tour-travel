@@ -4,8 +4,8 @@ import InspirationHero from "@/components/InspirationHero";
 import { BlogList } from "@/components/BlogList";
 
 const Blog = () => {
-  const { id } = useParams<{ id: string }>();
-  const section = sections.find((s) => s.id === id);
+  const { region } = useParams<{ region: string }>();
+  const section = sections.find((s) => s.id === region);
 
   if (!section) {
     return <Navigate to="/blogs" replace />;
@@ -21,7 +21,7 @@ const Blog = () => {
         />
         <InspirationHero currentSection={section} />
       </section>
-      <BlogList />
+      <BlogList continent={section.id} />
     </>
   );
 };
