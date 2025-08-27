@@ -3,11 +3,14 @@ import { Sheet, SheetContent, SheetTrigger } from "./sheet";
 import { navItems, socials } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
-const MobileMenu = () => {
+const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
+  const themeIcon = theme == "light" ? "stroke-white" : "stroke-A";
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Menu className="w-5 h-5 stroke-A cursor-pointer the-hover the-transition" />
+        <Menu
+          className={`w-5 h-5 ${themeIcon} cursor-pointer the-hover the-transition`}
+        />
       </SheetTrigger>
       <SheetContent side="full">
         <div className="grid md:grid-cols-2 bg-A max-h-screen">

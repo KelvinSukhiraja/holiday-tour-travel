@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import { navItems } from "@/lib/utils";
 import MobileMenu from "./ui/mobile-menu";
 
-export function Navbar() {
+export function Navbar({ theme }: { theme: string }) {
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const themeText = theme == "light" ? "text-white-a" : "text-A";
+  const themeBg = theme == "light" ? "bg-A" : "bg-white-a";
+  const themeLogo = theme == "light" ? "/LOGO-WHITE.png" : "/LOGO.png";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,12 +32,12 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed w-full flex justify-between items-center py-6 px-8 md:px-32 z-40 backdrop-blur-md transition-transform duration-300 ${
+      className={`fixed w-full flex justify-between items-center py-6 px-8 md:px-32 z-40 ${themeBg} transition-transform duration-300 ${
         show ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       <Link to="/" className="">
-        <img src={"/LOGO.png"} className="w-36" loading="lazy" />
+        <img src={themeLogo} className="w-36" loading="lazy" />
       </Link>
 
       <nav className="hidden md:flex items-center justify-around gap-20">
@@ -41,14 +45,14 @@ export function Navbar() {
           <Link
             key={item.href}
             to={item.href}
-            className="fourth-text font-medium text-A"
+            className={`fourth-text font-medium ${themeText}`}
           >
             {item.label}
           </Link>
         ))}
       </nav>
 
-      <MobileMenu />
+      <MobileMenu theme={theme} />
     </header>
   );
 }
