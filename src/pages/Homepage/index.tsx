@@ -2,7 +2,7 @@ import HeroSection from "@/components/Hero";
 import ScrollSection from "../ScrollSection";
 import Contact from "./Contact";
 import Introduction from "../../components/Introduction";
-import backgroundWebm from "@/assets/HOME/background.webm";
+// import backgroundWebm from "@/assets/HOME/background.webm";
 import backgroundMp4 from "@/assets/HOME/background.mp4";
 
 
@@ -22,7 +22,7 @@ const Homepage = () => {
           background={{
             type: "video",
             sources: [
-              { src: backgroundWebm, type: "video/webm" },
+              // { src: backgroundWebm, type: "video/webm" },
               { src: backgroundMp4, type: "video/mp4" },
             ],
           }}
