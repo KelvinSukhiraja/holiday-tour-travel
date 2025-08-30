@@ -13,6 +13,13 @@ export const navItems = [
   { label: "Contact Us", href: "/contact-us" },
 ];
 
+import asiaImg from "@/assets/INSPIRATION/ASIA.jpg";
+import americaImg from "@/assets/INSPIRATION/AMERICA.jpg";
+import antarticaImg from "@/assets/INSPIRATION/ANTARTICA.jpg";
+import australiaImg from "@/assets/INSPIRATION/AUSTRALIA.jpg";
+import europeImg from "@/assets/INSPIRATION/EUROPE.jpg";
+import africaImg from "@/assets/INSPIRATION/AFRICA.jpg";
+
 export const sections = [
   {
     id: "asia",
@@ -20,39 +27,39 @@ export const sections = [
     title: "Explore Asia",
     description:
       "Explore the rich cultures, diverse landscapes, and unforgettable experiences that Asia has to offer, from bustling cities to serene natural wonders.",
-    image: "/src/assets/INSPIRATION/ASIA.jpg",
+    image: asiaImg,
   },
   {
     id: "america",
     name: "America",
     title: "Explore America",
     description:
-      "Discover the vast landscapes, diverse cultures, and incredible adventures that await across the Americas.",
-    image: "/src/assets/INSPIRATION/AMERICA.jpg",
+      "Explore the vast landscapes, diverse cultures, and incredible adventures that await across the Americas.",
+    image: americaImg,
   },
   {
-    id: "antartica",
-    name: "Antartica",
-    title: "Explore Antartica",
+    id: "antarctica",
+    name: "Antarctica",
+    title: "Explore Antarctica",
     description:
-      "Witness the magical dance of the aurora lighting up the polar skies in a once-in-a-lifetime experience.",
-    image: "/src/assets/INSPIRATION/ANTARTICA.jpg",
+      "Explore the icy wonders of Antarctica and witness the magical dance of the aurora lighting up the polar skies in a once-in-a-lifetime experience.",
+    image: antarticaImg,
   },
   {
     id: "australia",
     name: "Australia",
     title: "Explore Australia",
     description:
-      "Australia's stunning coastlines, unique wildlife, and vibrant cities filled with adventure and natural beauty.",
-    image: "/src/assets/INSPIRATION/AUSTRALIA.jpg",
+      "Explore Australia's stunning coastlines, unique wildlife, and vibrant cities filled with adventure and natural beauty.",
+    image: australiaImg,
   },
   {
     id: "europe",
     name: "Europe",
     title: "Explore Europe",
     description:
-      "Discover the charm of Europe through its timeless cities, breathtaking landscapes, and unforgettable experiences.",
-    image: "/src/assets/INSPIRATION/EUROPE.jpg",
+      "Explore the charm of Europe through its timeless cities, breathtaking landscapes, and unforgettable experiences.",
+    image: europeImg,
   },
   {
     id: "africa",
@@ -60,9 +67,10 @@ export const sections = [
     title: "Explore Africa",
     description:
       "Explore Africa's vibrant cultures, stunning wildlife, and awe-inspiring landscapes that leave a lasting impression.",
-    image: "/src/assets/INSPIRATION/AFRICA.jpg",
+    image: africaImg,
   },
 ];
+
 
 export const travels_type = [
   {
