@@ -2,6 +2,8 @@ import HeroSection from "@/components/Hero";
 import Services from "./Services";
 import Clients from "./Clients";
 import Introduction from "../../components/Introduction";
+import AboutBg1 from "@/assets/ABOUT-US/1.jpg";
+
 
 const AboutUs = () => {
   return (
@@ -15,7 +17,7 @@ const AboutUs = () => {
           ctaHref="#introduction"
           background={{
             type: "image",
-            src: "/src/assets/ABOUT-US/1.jpg",
+            src: AboutBg1,
             alt: "Beautiful travel destination",
           }}
         />

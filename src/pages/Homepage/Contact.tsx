@@ -1,13 +1,15 @@
 import ContactForm from "@/components/ContactForm";
+import contactJpg from "@/assets/CONTACT-US/2.jpg";
+// import contactWebp from "@/assets/CONTACT-US/2.webp";
 
 const Contact = () => {
   return (
     <section className="h-screen grid grid-cols-2 relative">
       <picture>
-        <source srcSet={"/src/assets/CONTACT-US/2.jpg"} type="image/webp" />
-        <source srcSet={"/src/assets/CONTACT-US/2.jpg"} type="image/jpeg" />
+        {/* <source srcSet={contactWebp} type="image/webp" /> */}
+        <source srcSet={contactJpg} type="image/jpeg" />
         <img
-          src={"/src/assets/CONTACT-US/2.jpg"}
+          src={contactJpg}
           alt="Contact Us"
           className="w-full h-screen object-cover object-bottom"
           loading="lazy"

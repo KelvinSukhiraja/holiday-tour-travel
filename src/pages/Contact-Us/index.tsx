@@ -1,6 +1,8 @@
 import Footer from "@/components/Footer";
 import FormPage from "@/components/FormPage";
 import HeroSection from "@/components/Hero";
+import ContactUs1 from "@/assets/CONTACT-US/1.jpg"
+import ContactUs2 from "@/assets/CONTACT-US/2.jpg"
 
 const ContactUs = () => {
   return (
@@ -14,14 +16,14 @@ const ContactUs = () => {
           ctaHref="#form"
           background={{
             type: "image",
-            src: "/src/assets/CONTACT-US/1.jpg",
+            src: ContactUs1,
             alt: "Beautiful travel destination",
           }}
         />
       </section>
       <section>
         <FormPage
-          bgImage="/src/assets/CONTACT-US/2.jpg"
+          bgImage={ContactUs2}
           title="Travel Fair Form"
           subtitle="Complete the form to discover curated destinations and packages."
           formType="Contact"

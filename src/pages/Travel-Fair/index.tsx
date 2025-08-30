@@ -1,5 +1,7 @@
 import FormPage from "@/components/FormPage";
 import HeroSection from "@/components/Hero";
+import TravelFair1 from "@/assets/TRAVEL-FAIR/1.jpg"
+import TravelFair2 from "@/assets/TRAVEL-FAIR/2.jpg"
 
 const TravelFair = () => {
   return (
@@ -14,14 +16,14 @@ just fill in a few details."
           ctaHref="#form"
           background={{
             type: "image",
-            src: "/src/assets/TRAVEL-FAIR/1.jpg",
+            src: TravelFair1,
             alt: "Beautiful travel destination",
           }}
         />
       </section>
       <section>
         <FormPage
-          bgImage="/src/assets/TRAVEL-FAIR/2.jpg"
+          bgImage={TravelFair2}
           title="Travel Fair Form"
           subtitle="Complete the form to discover curated destinations and packages."
           formType="Travel"

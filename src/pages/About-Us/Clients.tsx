@@ -1,14 +1,15 @@
 import { AccordionSection } from "@/components/AccordionSection";
+import AboutBg2 from "@/assets/ABOUT-US/2.jpg";
 
 const Clients = () => {
   return (
     <section className="h-screen grid md:grid-cols-2 relative">
       <picture className="hidden md:flex">
-        <source srcSet={"/src/assets/ABOUT-US/2.jpg"} type="image/webp" />
-        <source srcSet={"/src/assets/ABOUT-US/2.jpg"} type="image/jpeg" />
+        {/* <source srcSet={"/src/assets/ABOUT-US/2.jpg"} type="image/webp" /> */}
+        {/* <source srcSet={"/src/assets/ABOUT-US/2.jpg"} type="image/jpeg" /> */}
         <img
-          src={"/src/assets/ABOUT-US/2.jpg"}
-          alt="Contact Us"
+          src={AboutBg2}
+          alt="Clients"
           className="w-full h-screen object-cover object-center"
           loading="lazy"
         />
