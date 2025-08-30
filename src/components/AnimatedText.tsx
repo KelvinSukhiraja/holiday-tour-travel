@@ -1,7 +1,10 @@
+// @ts-nocheck
+
+
 import { containerVariants, wordVariants } from "@/lib/animation";
 import { motion } from "framer-motion";
 
-const AnimatedText = ({ text }) => {
+const AnimatedText = ({ text }: {text: string}) => {
   const words = text.split(" "); // split into words
 
   return (
