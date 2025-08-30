@@ -23,7 +23,7 @@ const Homepage = () => {
             type: "video",
             sources: [
               { src: backgroundWebm, type: "video/webm" },
-              { src: backgroundWebm, type: "video/mp4" },
+              { src: backgroundMp4, type: "video/mp4" },
             ],
           }}
         />
