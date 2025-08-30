@@ -25,7 +25,7 @@ const Inspiration = () => {
             style={{ originX: 0, background: "#2F5C95" }}
           />
         </div>
-        <div className="flex overflow-x-auto w-full h-fit px-8 md:px-32">
+        <div className="flex overflow-x-auto w-full h-fit px-8 md:px-32 items-stretch">
           {sections.map((section, index) => (
             <div className="flex-shrink-0 flex " key={index}>
               {index != 0 && (

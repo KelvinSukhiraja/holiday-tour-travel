@@ -6,12 +6,12 @@ type CardProps = {
 
 const Card = ({ image, title, description }: CardProps) => {
   return (
-    <div className="w-52 flex flex-col gap-3 overflow-hidden scrollbar-hide items-center">
-      <div className="w-full aspect-[6/7]">
+    <div className="w-60 flex flex-col gap-3 overflow-hidden scrollbar-hide items-center">
+      <div className="w-full h-72">
         <img
           src={image}
           alt={title}
-          className="object-cover object-center rounded-[25%] h-full w-full"
+          className="object-cover object-center rounded-[30%] h-full w-full"
         />
       </div>
 

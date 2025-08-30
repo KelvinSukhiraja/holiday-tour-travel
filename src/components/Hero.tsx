@@ -86,7 +86,7 @@ export default function HeroSection({
               variants={slideRightVariants}
               transition={{ type: "spring" }}
             >
-              <span className="fourth-text">{subtitle}</span>
+              <p className="fourth-text max-w-2xs">{subtitle}</p>
             </MotionWrapper>
           )}
         </div>

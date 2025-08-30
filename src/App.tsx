@@ -17,6 +17,7 @@ const App = () => {
         <Route element={<Layout theme="dark" />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/inspiration" element={<Inspiration />} />
+          <Route path="/blogs/:region/:id" element={<BlogDetail />} />
         </Route>
 
         <Route element={<Layout theme="light" />}>
@@ -24,7 +25,6 @@ const App = () => {
           <Route path="/travel-fair" element={<TravelFair />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/blogs/:region" element={<Blog />} />
-          <Route path="/blogs/:region/:id" element={<BlogDetail />} />
         </Route>
       </Routes>
     </>

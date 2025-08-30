@@ -1,13 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import { sections } from "@/lib/utils";
 import InspirationHero from "@/components/InspirationHero";
 
 const ExploreScroll = () => {
-  const { scrollYProgress } = useScroll();
+  const containerRef = useRef<HTMLDivElement>(null); // 👈 attach ref
+  const { scrollYProgress } = useScroll({
+    target: containerRef,        // 👈 scope scroll to this section
+    offset: ["start start", "end end"], 
+  });
+
   const [currentSection, setCurrentSection] = useState(sections[0]);
 
-  // Map scroll progress into section index
   const sectionIndex = useTransform(
     scrollYProgress,
     [0, 1],
@@ -31,7 +35,7 @@ const ExploreScroll = () => {
   });
 
   return (
-    <div className="relative h-[500vh]">
+    <div ref={containerRef} className="relative h-[500vh]">
       {/* Background crossfade */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {sections.map((s) => (

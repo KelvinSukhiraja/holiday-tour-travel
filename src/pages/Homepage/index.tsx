@@ -7,7 +7,7 @@ const Homepage = () => {
   return (
     <>
       <section
-        className="h-[800vh]"
+        className="h-fit"
         // className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth "
       >
         <HeroSection
