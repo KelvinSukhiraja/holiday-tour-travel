@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <section className="h-[90vh] bg-A flex flex-col text-white md:px-32 px-8 py-10">
+    <section className="md:h-[60vh] bg-A flex flex-col text-white md:px-32 px-8 py-10">
       {/* Top Section */}
-      <div className="grid grid-cols-3 w-full h-full">
+      <div className="grid md:grid-cols-3 w-full h-full">
         {/* First Section */}
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-5 md:gap-10 h-fit">
           <img src={"/ICON.png"} className="w-20" loading="lazy" />
           <div>
             <span>Contact Us</span>
@@ -20,10 +20,10 @@ const Footer = () => {
           </div>
         </div>
         {/* Second Section */}
-        <div className="col-span-2 flex flex-col justify-between">
+        <div className="md:col-span-2 flex flex-col justify-between">
           {/* Second Top */}
-          <div className="flex justify-between">
-            <nav className="first-text flex flex-wrap gap-16 w-2/3">
+          <div className="flex justify-between py-7">
+            <nav className="first-text flex flex-wrap gap-5 md:gap-10 w-2/3 ">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
@@ -39,7 +39,7 @@ const Footer = () => {
             </a>
           </div>
           {/* Second Bot */}
-          <div className="third-text flex flex-col gap-3 py-5 third-text">
+          <div className="third-text flex flex-col gap-3 py-5 third-text justify-between">
             <span>Stay Connected</span>
             <ul className="flex flex-wrap space-x-8 space-y-3">
               {socials.map((social) => (

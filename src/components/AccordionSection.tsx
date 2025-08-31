@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import client1 from "/src/assets/ABOUT-US/CLIENTS/BCA.png"
 
 export function AccordionSection() {
   return (
@@ -28,7 +29,7 @@ export function AccordionSection() {
             similique quas alias dolore consequuntur.
           </p>
           <img
-            src={"/src/assets/ABOUT-US/CLIENTS/BCA.png"}
+            src={client1}
             alt="Contact Us"
             className="w-1/3 object-cover object-center"
             loading="lazy"
@@ -50,7 +51,7 @@ export function AccordionSection() {
             similique quas alias dolore consequuntur.
           </p>
           <img
-            src={"/src/assets/ABOUT-US/CLIENTS/BCA.png"}
+            src={client1}
             alt="Contact Us"
             className="w-1/3 object-cover object-center"
             loading="lazy"
@@ -72,7 +73,7 @@ export function AccordionSection() {
             similique quas alias dolore consequuntur.
           </p>
           <img
-            src={"/src/assets/ABOUT-US/CLIENTS/BCA.png"}
+            src={client1}
             alt="Contact Us"
             className="w-1/3 object-cover object-center"
             loading="lazy"
@@ -94,7 +95,7 @@ export function AccordionSection() {
             similique quas alias dolore consequuntur.
           </p>
           <img
-            src={"/src/assets/ABOUT-US/CLIENTS/BCA.png"}
+            src={client1}
             alt="Contact Us"
             className="w-1/3 object-cover object-center"
             loading="lazy"
@@ -116,7 +117,7 @@ export function AccordionSection() {
             similique quas alias dolore consequuntur.
           </p>
           <img
-            src={"/src/assets/ABOUT-US/CLIENTS/BCA.png"}
+            src={client1}
             alt="Contact Us"
             className="w-1/3 object-cover object-center"
             loading="lazy"
@@ -138,7 +139,7 @@ export function AccordionSection() {
             similique quas alias dolore consequuntur.
           </p>
           <img
-            src={"/src/assets/ABOUT-US/CLIENTS/BCA.png"}
+            src={client1}
             alt="Contact Us"
             className="w-1/3 object-cover object-center"
             loading="lazy"
