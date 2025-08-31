@@ -1,15 +1,18 @@
+import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
 import { navItems, socials } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
 const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
-  const themeIcon = theme == "light" ? "stroke-white" : "stroke-A";
+  const [open, setOpen] = useState(false);
+  const themeIcon = theme === "light" ? "stroke-white" : "stroke-A";
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
         <Menu
-          className={`w-5 h-5 ${themeIcon} cursor-pointer the-hover the-transition`}
+          className={`w-5 h-5 ${themeIcon} cursor-pointer the-hover the-transition `}
         />
       </SheetTrigger>
       <SheetContent side="full">
@@ -25,7 +28,8 @@ const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
                 <Link
                   key={item.href}
                   to={item.href}
-                  className="w-fit the-hover the-transition "
+                  className="w-fit the-hover the-transition"
+                  onClick={() => setOpen(false)} // 👈 close after click
                 >
                   {item.label}
                 </Link>
@@ -35,7 +39,12 @@ const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
               <span>Stay Connected</span>
               <ul className="flex flex-wrap space-x-8 space-y-3">
                 {socials.map((social) => (
-                  <Link to={social.link} className="the-hover the-transition">
+                  <Link
+                    key={social.link}
+                    to={social.link}
+                    className="the-hover the-transition"
+                    onClick={() => setOpen(false)} // 👈 close after click
+                  >
                     {social.label}
                   </Link>
                 ))}

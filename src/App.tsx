@@ -8,11 +8,13 @@ import ContactUs from "./pages/Contact-Us";
 import { BlogDetail } from "./pages/Inspiration/Blog/Detail";
 import Blog from "./pages/Inspiration/Blog";
 import { Layout } from "./pages/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App = () => {
   return (
     <>
       {/* <Navbar /> */}
+      <ScrollToTop />
       <Routes>
         <Route element={<Layout theme="dark" />}>
           <Route path="/" element={<Homepage />} />
