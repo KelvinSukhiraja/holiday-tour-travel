@@ -1,8 +1,13 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { client } from "@/lib/sanityClient";
 import { PortableText, type PortableTextBlock } from "@portabletext/react";
 import { X } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Footer from "@/components/Footer";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Topic = {
   topic: string;
@@ -24,7 +29,17 @@ export function BlogDetail() {
   const { id, region } = useParams<{ region: string; id: string }>();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null); // NEW
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  // useRef to store refs of all topic sections
+  const topicRefs = useRef<Array<HTMLDivElement | null>>([]);
+  topicRefs.current = [];
+
+  const addToRefs = (el: HTMLDivElement | null) => {
+    if (el && !topicRefs.current.includes(el)) {
+      topicRefs.current.push(el);
+    }
+  };
 
   useEffect(() => {
     const query = `*[_type == "blog" && _id == "${id}"][0]{
@@ -42,6 +57,54 @@ export function BlogDetail() {
       setLoading(false);
     });
   }, [id]);
+
+  useLayoutEffect(() => {
+    if (topicRefs.current.length > 0) {
+      topicRefs.current.forEach((topicRef, index) => {
+        const q = gsap.utils.selector(topicRef);
+        const isEven = index % 2 === 0;
+
+        // Animate the content (text)
+        gsap.fromTo(
+          q(".topic-content"),
+          {
+            yPercent: 100,
+            opacity: 0,
+          },
+          {
+            yPercent: 0,
+            opacity: 1,
+            scrollTrigger: {
+              trigger: topicRef,
+              start: "top 50%",
+              end: "center center",
+              scrub: 1,
+            },
+          }
+        );
+
+        // Animate the photos
+        gsap.fromTo(
+          q(".topic-photos img"),
+          {
+            y: 100,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.2, // Stagger for multiple photos
+            scrollTrigger: {
+              trigger: topicRef,
+              start: "top 50%",
+              end: "center center",
+              scrub: 1,
+            },
+          }
+        );
+      });
+    }
+  }, [post]);
 
   if (loading) return <p className="text-center">Loading blog...</p>;
   if (!post) return <p className="text-center">Blog not found</p>;
@@ -76,62 +139,72 @@ export function BlogDetail() {
   };
 
   return (
-    <div className="px-8 md:px-32 py-20 text-A">
-      <div className="py-10">
-        <span className="fourth-text text-gray-b capitalize">
-          <Link to="/inspiration" className="hover:text-A the-transition">
-            Inspiration
-          </Link>{" "}
-          &gt;{" "}
-          <Link to={`/blogs/${region}`} className="hover:text-A the-transition">
-            {region}
-          </Link>{" "}
-          &gt; {post.title}
-        </span>
-        <h1 className="first-text">{post.title}</h1>
-      </div>
-
-      <div>
-        {post.topic?.map((t, index) => {
-          const isEven = index % 2 === 0;
-          const reverseClass = isEven ? "order-first" : "md:order-last";
-          const sideClass = isEven ? "justify-self-end" : "";
-
-          return (
-            <div
-              key={index}
-              className={`grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-5 relative ${
-                index > 0 ? "md:-mt-10" : ""
-              }`}
+    <section>
+      <div className="px-8 md:px-32 py-20 text-A">
+        <div className="py-10">
+          <span className="fourth-text text-gray-b capitalize">
+            <Link to="/inspiration" className="hover:text-A the-transition">
+              Inspiration
+            </Link>{" "}
+            &gt;{" "}
+            <Link
+              to={`/blogs/${region}`}
+              className="hover:text-A the-transition"
             >
-              <div className={`${reverseClass}`}>{photos(t, isEven)}</div>
-              <div
-                className={`flex flex-col md:justify-center gap-5 w-4/5 ${sideClass}`}
-              >
-                <h2 className="second-text">{t.topic}</h2>
-                <p className="fourth-text max-w-md">
-                  <PortableText value={t.description} />
-                </p>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Lightbox Overlay */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 backdrop-brightness-[15%] flex items-center justify-center z-50 p-5"
-          onClick={() => setSelectedImage(null)}
-        >
-          <X className="absolute top-5 right-5 stroke-white-a cursor-pointer" />
-          <img
-            src={selectedImage}
-            alt="Full"
-            className="w-full h-full object-contain"
-          />
+              {region}
+            </Link>{" "}
+            &gt; {post.title}
+          </span>
+          <h1 className="first-text">{post.title}</h1>
         </div>
-      )}
-    </div>
+
+        <div>
+          {post.topic?.map((t, index) => {
+            const isEven = index % 2 === 0;
+            const reverseClass = isEven ? "order-first" : "md:order-last";
+
+            return (
+              <div
+                key={index}
+                ref={addToRefs} // Add ref to the topic container
+                className={`grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-5 relative ${
+                  index > 0 ? "md:-mt-10" : ""
+                }`}
+              >
+                <div className={`topic-photos ${reverseClass}`}>
+                  {photos(t, isEven)}
+                </div>
+                <div
+                  className={`topic-content flex flex-col md:justify-center gap-5 w-4/5 ${
+                    isEven ? "justify-self-end" : ""
+                  }`}
+                >
+                  <h2 className="second-text">{t.topic}</h2>
+                  <p className="fourth-text max-w-md">
+                    <PortableText value={t.description} />
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {selectedImage && (
+          <div
+            className="fixed inset-0 backdrop-brightness-[15%] flex items-center justify-center z-50 p-5"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X className="absolute top-5 right-5 stroke-white-a cursor-pointer" />
+            <img
+              src={selectedImage}
+              alt="Full"
+              className="w-full h-full object-contain"
+            />
+          </div>
+        )}
+      </div>
+      {/* Footer */}
+      <Footer />
+    </section>
   );
 }

@@ -3,7 +3,7 @@ import Services from "./Services";
 import Clients from "./Clients";
 import Introduction from "../../components/Introduction";
 import AboutBg1 from "@/assets/ABOUT-US/1.jpg";
-
+import Footer from "@/components/Footer";
 
 const AboutUs = () => {
   return (
@@ -28,9 +28,9 @@ const AboutUs = () => {
         <Services />
       </section>
       {/* Third Section - Clients */}
-      <section>
-        <Clients />
-      </section>
+      <Clients />
+      {/* Footer Section - Clients */}
+      <Footer />
     </>
   );
 };

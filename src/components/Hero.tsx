@@ -1,15 +1,8 @@
 // components/HeroSection.tsx
-import { MotionWrapper } from "@/components/MotionWrapper";
 import { Separator } from "@/components/ui/separator";
-import {
-  fadeVariants,
-  slideRightVariants,
-  slideUpVariants,
-} from "@/lib/animation";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ArrowDownRight } from "lucide-react";
-import { motion } from "framer-motion";
-
-const MotionSeparator = motion(Separator);
 
 interface VideoSource {
   src: string;
@@ -39,6 +32,38 @@ export default function HeroSection({
   backgroundClassName = "absolute top-0 left-0 w-full h-full object-cover brightness-75",
   className = "",
 }: HeroSectionProps) {
+  // const containerRef = useRef(null);
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      defaults: { ease: "power1.inOut", opacity: 0 },
+    });
+
+    tl.from("#separator", {
+      scaleX: 0,
+      transformOrigin: "left center",
+      duration: 1,
+      opacity: 1,
+    })
+      .from("#header h1, #header p", {
+        opacity: 0,
+        duration: 0.5,
+        yPercent: 30,
+        stagger: 0.3,
+      })
+      .from("#subtext", {
+        opacity: 0,
+        duration: 0.5,
+        yPercent: -30,
+      })
+      .from("#ctaText", {
+        opacity: 0,
+        duration: 0.7,
+        yPercent: -30,
+        xPercent: -30,
+      });
+  });
+
   return (
     <section
       id="hero"
@@ -68,52 +93,34 @@ export default function HeroSection({
       )}
 
       {/* Content */}
-      <div className="flex flex-col z-10">
-        <div className="relative flex flex-col md:flex-row md:items-end gap-2 py-5">
-          <MotionWrapper
-            variants={slideUpVariants}
-            transition={{
-              type: "spring",
-              stiffness: 200,
-              damping: 5,
-            }}
-          >
-            <h1 className="first-text md:max-w-52">{title}</h1>
-          </MotionWrapper>
-
-          {subtitle && (
-            <MotionWrapper
-              variants={slideRightVariants}
-              transition={{ type: "spring" }}
-            >
-              <p className="fourth-text max-w-2xs">{subtitle}</p>
-            </MotionWrapper>
-          )}
+      <div className="flex flex-col z-10" id="content">
+        <div className="relative grid md:grid-cols-4 gap-2 py-5" id="header">
+          <div className="w-full ">
+            <h1 className="first-text md:max-w-52 ">{title}</h1>
+          </div>
+          <div className="col-span-3 self-end w-full">
+            {subtitle && <p className="fourth-text max-w-2xs">{subtitle}</p>}
+          </div>
         </div>
 
-        <MotionSeparator
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          exit={{ scaleX: 0 }}
-          transition={{ duration: 2, ease: "easeInOut" }}
-          style={{ originX: 0 }}
-        />
+        <Separator id="separator" />
 
         {subtext && (
-          <span className="fourth-text max-w-3xs text-end self-end py-5">
-            <MotionWrapper variants={fadeVariants}>{subtext}</MotionWrapper>
-          </span>
+          <p
+            id="subtext"
+            className="fourth-text max-w-3xs text-end self-end py-5"
+          >
+            {subtext}
+          </p>
         )}
 
         {ctaText && (
-          <div className="absolute bottom-10 self-end">
+          <div className="absolute bottom-10 self-end" id="ctaText">
             <a
               href={ctaHref}
               className="flex items-center group the-transition the-hover"
             >
-              <span className="fourth-text">
-                <MotionWrapper variants={fadeVariants}>{ctaText}</MotionWrapper>
-              </span>
+              <p className="fourth-text">{ctaText}</p>
               <ArrowDownRight className="stroke-1 group-hover:rotate-45 the-transition" />
             </a>
           </div>

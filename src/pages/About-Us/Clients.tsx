@@ -1,21 +1,70 @@
 import { AccordionSection } from "@/components/AccordionSection";
 import AboutBg2 from "@/assets/ABOUT-US/2.jpg";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { useRef } from "react";
 
 const Clients = () => {
+  const clientRef = useRef(null);
+
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        "#client-img",
+        { yPercent: -30 },
+        {
+          yPercent: 30,
+          ease: "none",
+          scrollTrigger: {
+            trigger: clientRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+
+      const tl = gsap.timeline({
+        defaults: {
+          opacity: 0,
+          ease: "power2.out",
+          duration: 1.3,
+        },
+        scrollTrigger: {
+          trigger: clientRef.current,
+          start: "top 80%",
+        },
+      });
+
+      tl.from("#client-header h1, #client-header p", {
+        y: 20,
+        stagger: 0.2,
+      });
+
+      tl.from(
+        "#accordion > *",
+        {
+          y: 20,
+          stagger: 0.1,
+        },
+        "<0.3"
+      );
+    },
+    { scope: clientRef, revertOnUpdate: true }
+  );
   return (
-    <section className="h-screen grid md:grid-cols-2 relative">
-      <picture className="hidden md:flex">
-        {/* <source srcSet={"/src/assets/ABOUT-US/2.jpg"} type="image/webp" /> */}
-        {/* <source srcSet={"/src/assets/ABOUT-US/2.jpg"} type="image/jpeg" /> */}
+    <section className="h-screen grid md:grid-cols-2 relative" ref={clientRef}>
+      <div className="relative overflow-hidden">
         <img
           src={AboutBg2}
-          alt="Clients"
-          className="w-full h-screen object-cover object-center"
+          alt="Contact Us"
+          id="client-img"
+          className="absolute inset-0 w-full h-[140%] object-cover object-bottom"
           loading="lazy"
         />
-      </picture>
+      </div>
       <div className="px-8 md:px-32 flex flex-col justify-center items-center w-full gap-5 bg-white-a text-A">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3" id="client-header">
           <h1 className="first-text">Corporate Clients</h1>
           <p className="fourth-text">
             We specialize in organizing seamless and impactful MICE events
@@ -23,7 +72,9 @@ const Clients = () => {
             to large-scale conferences and exhibitions.
           </p>
         </div>
-        <AccordionSection />
+        <div id="accordion" className="w-full">
+          <AccordionSection />
+        </div>
       </div>
     </section>
   );

@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import client1 from "/src/assets/ABOUT-US/CLIENTS/BCA.png"
+import client1 from "/src/assets/ABOUT-US/CLIENTS/BCA.png";
 
 export function AccordionSection() {
   return (
@@ -12,7 +12,7 @@ export function AccordionSection() {
       type="single"
       collapsible
       className="w-full"
-      defaultValue="item-1"
+      // defaultValue="item-1"
     >
       <AccordionItem value="item-1">
         <AccordionTrigger>

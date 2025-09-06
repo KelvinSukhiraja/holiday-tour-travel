@@ -1,22 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { sections } from "@/lib/utils";
 import InspirationHero from "@/components/InspirationHero";
 
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 const ExploreScroll = () => {
-  const containerRef = useRef<HTMLDivElement>(null); // 👈 attach ref
-  const { scrollYProgress } = useScroll({
-    target: containerRef,        // 👈 scope scroll to this section
-    offset: ["start start", "end end"], 
-  });
-
+  const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(sections[0]);
-
-  const sectionIndex = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [0, sections.length - 1]
-  );
 
   // Preload images
   useEffect(() => {
@@ -26,32 +19,85 @@ const ExploreScroll = () => {
     });
   }, []);
 
-  // Update section on scroll
-  useMotionValueEvent(sectionIndex, "change", (latest) => {
-    const index = Math.round(latest);
-    if (sections[index] && sections[index].id !== currentSection.id) {
-      setCurrentSection(sections[index]);
-    }
-  });
+  // Setup GSAP ScrollTrigger
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const container = containerRef.current;
+    const totalSections = sections.length;
+
+    // Create ScrollTrigger for section changes
+    ScrollTrigger.create({
+      trigger: container,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: false,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const sectionIndex = Math.round(progress * (totalSections - 1));
+        const clampedIndex = Math.max(
+          0,
+          Math.min(sectionIndex, totalSections - 1)
+        );
+
+        if (
+          sections[clampedIndex] &&
+          sections[clampedIndex].id !== currentSection.id
+        ) {
+          setCurrentSection(sections[clampedIndex]);
+        }
+      },
+    });
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => {
+        if (trigger.trigger === container) {
+          trigger.kill();
+        }
+      });
+    };
+  }, [currentSection.id]);
+
+  // Animate image transitions with GSAP
+  useEffect(() => {
+    const images = containerRef.current?.querySelectorAll(".section-image");
+    if (!images) return;
+
+    images.forEach((img) => {
+      const isActive =
+        img.getAttribute("data-section-id") === currentSection.id;
+      gsap.to(img, {
+        opacity: isActive ? 1 : 0,
+        duration: 0.7,
+        ease: "power2.out",
+      });
+    });
+  }, [currentSection.id]);
 
   return (
-    <div ref={containerRef} className="relative h-[500vh]">
-      {/* Background crossfade */}
+    <div
+      ref={containerRef}
+      className="relative h-[500vh] snap-y snap-mandatory"
+    >
+      {/* Sticky background & hero */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         {sections.map((s) => (
           <img
             key={s.id}
+            data-section-id={s.id}
             src={s.image}
             alt={s.name}
-            className={`absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-700 ${
-              s.id === currentSection.id ? "opacity-100" : "opacity-0"
-            }`}
+            className="section-image absolute top-0 left-0 w-full h-full object-cover opacity-0"
           />
         ))}
-
-        {/* Hero overlay */}
-        <InspirationHero currentSection={currentSection} />
+        <InspirationHero currentSection={currentSection} numbering={true} />
       </div>
+
+      {/* Invisible snapping sections (drives scroll snapping) */}
+      {sections.map((s) => (
+        <div key={s.id} className="h-screen snap-start" />
+      ))}
     </div>
   );
 };

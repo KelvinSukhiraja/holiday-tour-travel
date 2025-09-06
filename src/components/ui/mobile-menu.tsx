@@ -16,7 +16,10 @@ const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
         />
       </SheetTrigger>
       <SheetContent side="full">
-        <div className="grid md:grid-cols-2 bg-A max-h-screen">
+        <div
+          className="grid md:grid-cols-2 bg-A max-h-screen"
+          onClick={() => setOpen(false)}
+        >
           <img
             src={new URL("/src/assets/MENU/1.jpg", import.meta.url).href}
             className="hidden md:flex max-h-screen w-full object-cover object-center"

@@ -1,7 +1,8 @@
 import FormPage from "@/components/FormPage";
 import HeroSection from "@/components/Hero";
-import TravelFair1 from "@/assets/TRAVEL-FAIR/1.jpg"
-import TravelFair2 from "@/assets/TRAVEL-FAIR/2.jpg"
+import TravelFair1 from "@/assets/TRAVEL-FAIR/1.jpg";
+import TravelFair2 from "@/assets/TRAVEL-FAIR/2.jpg";
+import Footer from "@/components/Footer";
 
 const TravelFair = () => {
   return (
@@ -29,6 +30,8 @@ just fill in a few details."
           formType="Travel"
         />
       </section>
+      {/* Footer Section - Clients */}
+      <Footer />
     </>
   );
 };

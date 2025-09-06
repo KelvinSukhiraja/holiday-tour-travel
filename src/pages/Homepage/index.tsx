@@ -1,10 +1,10 @@
 import HeroSection from "@/components/Hero";
-import ScrollSection from "../ScrollSection";
 import Contact from "./Contact";
 import Introduction from "../../components/Introduction";
-// import backgroundWebm from "@/assets/HOME/background.webm";
 import backgroundMp4 from "@/assets/HOME/background.mp4";
-
+import Footer from "@/components/Footer";
+import InspirationScroller from "../ScrollSection";
+import ScrollSection from "../ScrollSection";
 
 const Homepage = () => {
   return (
@@ -27,18 +27,17 @@ const Homepage = () => {
             ],
           }}
         />
-
         {/* Second Section - Intro*/}
         <Introduction />
-
         {/* Third Section - Inspiration*/}
         <ScrollSection />
       </section>
 
       {/* Second Section - Contact */}
-      <section>
-        <Contact />
-      </section>
+      <Contact />
+
+      {/* Footer */}
+      <Footer />
     </>
   );
 };

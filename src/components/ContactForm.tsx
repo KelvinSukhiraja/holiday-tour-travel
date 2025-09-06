@@ -58,12 +58,22 @@ export default function ContactForm() {
     alert("Form submitted! Check the console for the data.");
   }
 
+  // Map countries, extract common name and construct the full IDD code
   const countryList = countries
-    .map((c) => ({
-      label: c.name.common,
-      value: c.name.common,
-    }))
+    .map((c) => {
+      const iddCode = c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "");
+      return {
+        label: c.name.common,
+        value: c.name.common,
+        idd: iddCode,
+      };
+    })
     .sort((a, b) => a.label.localeCompare(b.label));
+
+  // Watch the selected country to dynamically update the phone field's placeholder
+  const selectedCountry = form.watch("country");
+  const countryPhoneCode =
+    countryList.find((c) => c.value === selectedCountry)?.idd || "";
 
   return (
     <Form {...form}>
@@ -96,24 +106,6 @@ export default function ContactForm() {
                 <Input
                   type="email"
                   placeholder="Enter your email address"
-                  className="bg-gray-a px-4 py-2"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="+62 Enter your phone number"
                   className="bg-gray-a px-4 py-2"
                   {...field}
                 />
@@ -160,6 +152,8 @@ export default function ContactForm() {
                             value={country.value}
                             onSelect={() => {
                               form.setValue("country", country.value);
+                              // Automatically set the phone field with the new country's IDD code
+                              form.setValue("phone", country.idd);
                             }}
                           >
                             <Check
@@ -178,6 +172,26 @@ export default function ContactForm() {
                   </Command>
                 </PopoverContent>
               </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Phone Number</FormLabel>
+              <FormControl>
+                <Input
+                  type="tel"
+                  pattern="[0-9]*"
+                  placeholder={`${countryPhoneCode} Enter your phone number`}
+                  className="bg-gray-a px-4 py-2"
+                  {...field}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

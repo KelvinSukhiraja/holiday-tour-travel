@@ -160,3 +160,24 @@
   font-weight: 400;
   font-style: normal;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and old Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* globals.css */
+
+.rounded-104px {
+  border-radius: 104px;
+  /* Add an initial clip-path that matches the border radius */
+  clip-path: circle(50% at 50% 50%); /* This is a rough approximation */
+}
+
+.animate-full-screen-clip {
+  /* Animate to a full rectangle */
+  clip-path: circle(150% at 50% 50%); /* A large circle to fill the screen */
+}

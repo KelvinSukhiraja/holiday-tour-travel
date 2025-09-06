@@ -1,9 +1,18 @@
 import { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { navItems } from "@/lib/utils";
 import MobileMenu from "./ui/mobile-menu";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export function Navbar({ theme }: { theme: "light" | "dark" }) {
+  useGSAP(() => {
+    gsap.from(".navItems", {
+      opacity: 0,
+      // yPercent: 100,
+      duration: 3,
+    });
+  });
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrolled, setScrolled] = useState(false);
@@ -15,18 +24,20 @@ export function Navbar({ theme }: { theme: "light" | "dark" }) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const heroHeight = window.innerHeight;
+      const heroHeight = window.innerHeight; // 100% viewport height
 
       if (currentScrollY < heroHeight) {
+        // Inside hero → always visible, transparent
         setShow(true);
         setScrolled(false);
       } else {
+        // After hero → enable scroll-based behavior
         if (currentScrollY > lastScrollY) {
-          setShow(false);
+          setShow(false); // scrolling down → hide
         } else {
-          setShow(true);
+          setShow(true); // scrolling up → show
         }
-        setScrolled(true);
+        setScrolled(true); // background after hero
       }
 
       setLastScrollY(currentScrollY);
@@ -49,20 +60,13 @@ export function Navbar({ theme }: { theme: "light" | "dark" }) {
 
       <nav className="hidden md:flex items-center justify-around gap-20">
         {navItems.map((item) => (
-          <NavLink
+          <Link
             key={item.href}
             to={item.href}
-            end={item.href === "/"} // exact match for root link
-            className={({ isActive }) =>
-              `fourth-text font-medium ${themeText} relative
-               after:content-[""] after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:rounded-full
-               after:transition-all after:duration-300
-               ${isActive ? "after:w-full after:bg-A" : "after:w-0 after:bg-transparent"}
-               hover:after:w-full hover:after:bg-A`
-            }
+            className={`fourth-text font-medium ${themeText} navItems`}
           >
             {item.label}
-          </NavLink>
+          </Link>
         ))}
       </nav>
 

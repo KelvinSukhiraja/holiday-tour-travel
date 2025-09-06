@@ -1,5 +1,4 @@
-import { Route, Routes } from "react-router-dom";
-// import { Navbar } from "./components/Navbar";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import AboutUs from "./pages/About-Us";
 import Inspiration from "./pages/Inspiration";
@@ -9,13 +8,19 @@ import { BlogDetail } from "./pages/Inspiration/Blog/Detail";
 import Blog from "./pages/Inspiration/Blog";
 import { Layout } from "./pages/Layout";
 import ScrollToTop from "./components/ScrollToTop";
+import gsap from "gsap";
+import { ScrollTrigger, SplitText } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const App = () => {
+  const location = useLocation();
+
   return (
     <>
-      {/* <Navbar /> */}
       <ScrollToTop />
-      <Routes>
+      {/* <AnimatePresence mode="wait"> */}
+      <Routes location={location} key={location.pathname}>
         <Route element={<Layout theme="dark" />}>
           <Route path="/" element={<Homepage />} />
           <Route path="/inspiration" element={<Inspiration />} />
@@ -29,6 +34,7 @@ const App = () => {
           <Route path="/blogs/:region" element={<Blog />} />
         </Route>
       </Routes>
+      {/* </AnimatePresence> */}
     </>
   );
 };

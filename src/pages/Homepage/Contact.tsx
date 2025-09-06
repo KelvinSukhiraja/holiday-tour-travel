@@ -1,33 +1,94 @@
 import ContactForm from "@/components/ContactForm";
 import contactJpg from "@/assets/CONTACT-US/2.jpg";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
+  const contactRef = useRef(null);
+
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        "#contact-img",
+        { yPercent: -30 },
+        {
+          yPercent: 30,
+          ease: "none",
+          scrollTrigger: {
+            trigger: contactRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: true,
+          },
+        }
+      );
+
+      const tl = gsap.timeline({
+        defaults: {
+          opacity: 0,
+          ease: "power2.out",
+          duration: 1.3,
+        },
+        scrollTrigger: {
+          trigger: contactRef.current,
+          start: "top 80%",
+        },
+      });
+
+      tl.from("#contact-header h1, #contact-header p", {
+        y: 20,
+        stagger: 0.2,
+      });
+
+      tl.from(
+        "#contact-form > *",
+        {
+          y: 20,
+          stagger: 0.1,
+        },
+        "<0.3"
+      );
+    },
+    { scope: contactRef, revertOnUpdate: true }
+  );
+
   return (
-    <section className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative">
+    <section
+      ref={contactRef}
+      id="contact"
+      className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative"
+    >
       {/* Left side image */}
-      <picture>
-        <source srcSet={contactJpg} type="image/jpeg" />
+      <div className="relative overflow-hidden">
         <img
           src={contactJpg}
           alt="Contact Us"
-          className="w-full h-[300px] md:h-screen object-cover object-bottom"
+          id="contact-img"
+          className="absolute inset-0 w-full h-[140%] object-cover object-bottom"
           loading="lazy"
         />
-      </picture>
+      </div>
 
       {/* Right side content */}
       <div className="px-6 sm:px-12 md:px-16 lg:px-32 py-10 flex flex-col justify-center items-center w-full gap-6 bg-white-a text-A">
-        <div className="flex flex-col gap-4 text-center md:text-left">
+        <div
+          className="flex flex-col gap-4 text-center md:text-left"
+          id="contact-header"
+        >
           <h1 className="first-text text-2xl sm:text-3xl md:text-4xl">
             Reach Out to Explore
           </h1>
-          <p className="fourth-text text-sm sm:text-base md:text-lg">
+          <p className="fourth-text">
             From tranquil getaways to thrilling adventures, we're here to help
             craft a journey made just for you. Reach out and let’s start
             planning your next unforgettable escape.
           </p>
         </div>
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md" id="contact-form">
           <ContactForm />
         </div>
       </div>
