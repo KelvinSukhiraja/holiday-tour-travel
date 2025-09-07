@@ -12,14 +12,12 @@ type InspirationHeroProps = {
   style?: React.CSSProperties;
   currentSection: SectionType;
   numbering?: boolean;
-  scrollDirection: "up" | "down";
 };
 
 const InspirationHero = ({
   style,
   currentSection,
   numbering,
-  scrollDirection,
 }: InspirationHeroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -28,39 +26,31 @@ const InspirationHero = ({
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        defaults: { ease: "power1.out" },
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 70%", // when top of section hits 70% viewport
+          toggleActions: "play none none reset",
+          // play on enter, reset when leaving (can adjust)
+        },
+        defaults: { ease: "power1.inOut", opacity: 0 },
       });
 
-      // Determine the animation direction
-      const yDirection = scrollDirection === "down" ? 50 : -50;
-
-      tl.fromTo(
-        ".third-text",
-        { opacity: 0, yPercent: yDirection },
-        { opacity: 1, yPercent: 0, duration: 0.7 }
-      )
-        .fromTo(
-          "h1",
-          { opacity: 0, yPercent: yDirection },
-          { opacity: 1, yPercent: 0, duration: 0.7 },
-          "<0.1"
-        )
-        .fromTo(
-          "p.fourth-text",
-          { opacity: 0, yPercent: yDirection },
-          { opacity: 1, yPercent: 0, duration: 0.7 },
-          "<0.1"
-        )
-        .fromTo(
-          ".numbering",
-          { opacity: 0 },
-          { opacity: 1, duration: 0.7 },
-          "<0.2"
-        );
+      tl.from("#head, #subhead", {
+        yPercent: 30,
+        duration: 0.7,
+        stagger: 0.1,
+      })
+        // .from(".numbering", {
+        //   opacity: 0,
+        // })
+        .from("#number1", {
+          y: -10,
+          duration: 0.3,
+        });
     }, containerRef);
 
-    return () => ctx.revert();
-  }, [currentSection.id, scrollDirection]);
+    return () => ctx.revert(); // cleanup
+  }, []);
 
   return (
     <div ref={containerRef} className="h-screen w-full">
@@ -70,16 +60,25 @@ const InspirationHero = ({
       >
         <div className="grid md:grid-cols-3 gap-2 text-white z-10">
           <p className="third-text">Inspiration</p>
-          <div className="col-span-2 flex flex-col md:gap-6 gap-2">
-            <h1 className="first-text">{currentSection.title}</h1>
-            <p className="fourth-text max-w-md">{currentSection.description}</p>
+          <div
+            key={currentSection.id}
+            className="col-span-2 flex flex-col md:gap-6 gap-2"
+          >
+            <h1 className="first-text" id="head">
+              {currentSection.title}
+            </h1>
+            <p className="fourth-text max-w-md" id="subhead">
+              {currentSection.description}
+            </p>
           </div>
-          {numbering && (
-            <div className="absolute bottom-10 right-20 fourth-text numbering">
-              {sections.findIndex((s) => s.id === currentSection.id) + 1}/
-              {sections.length}
+          {numbering ? (
+            <div className="absolute bottom-10 right-20 fourth-text numbering flex">
+              <p id="number1">
+                {sections.findIndex((s) => s.id === currentSection.id) + 1}
+              </p>
+              /{sections.length}
             </div>
-          )}
+          ) : null}
         </div>
       </section>
     </div>

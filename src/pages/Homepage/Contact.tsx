@@ -60,7 +60,7 @@ const Contact = () => {
     <section
       ref={contactRef}
       id="contact"
-      className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative bg-red-200"
+      className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative"
     >
       {/* Left side image */}
       <div className="relative overflow-hidden">

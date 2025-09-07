@@ -9,10 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ExploreScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [currentSection, setCurrentSection] = useState(sections[0]);
-  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("down");
-  const lastSectionRef = useRef(sections[0].id);
 
   // Preload images
   useEffect(() => {
@@ -22,45 +19,43 @@ const ExploreScroll = () => {
     });
   }, []);
 
-  // Set up ScrollTriggers for each individual section
-  // This useEffect now runs only once on mount
+  // Setup GSAP ScrollTrigger
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const ctx = gsap.context(() => {
-      sectionRefs.current.forEach((section, index) => {
-        if (!section) return;
+    const container = containerRef.current;
+    const totalSections = sections.length;
 
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => {
-            if (lastSectionRef.current !== sections[index].id) {
-              setCurrentSection(sections[index]);
-              setScrollDirection("down");
-              lastSectionRef.current = sections[index].id;
-            }
-          },
-          onLeaveBack: () => {
-            if (
-              index > 0 &&
-              lastSectionRef.current !== sections[index - 1].id
-            ) {
-              setCurrentSection(sections[index - 1]);
-              setScrollDirection("up");
-              lastSectionRef.current = sections[index - 1].id;
-            }
-          },
-        });
-      });
-    }, containerRef);
+    // Create ScrollTrigger for section changes
+    const scrollTriggerInstance = ScrollTrigger.create({
+      trigger: container,
+      start: "top top",
+      end: "bottom bottom",
+      scrub: false,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const sectionIndex = Math.round(progress * (totalSections - 1));
+        const clampedIndex = Math.max(
+          0,
+          Math.min(sectionIndex, totalSections - 1)
+        );
 
-    return () => ctx.revert();
-  }, []);
+        if (
+          sections[clampedIndex] &&
+          sections[clampedIndex].id !== currentSection.id
+        ) {
+          setCurrentSection(sections[clampedIndex]);
+        }
+      },
+    });
+
+    // Cleanup function
+    return () => {
+      scrollTriggerInstance.kill();
+    };
+  }, [currentSection.id]);
 
   // Animate image transitions with GSAP
-  // This useEffect will run every time currentSection.id changes, and only then.
   useEffect(() => {
     const images = containerRef.current?.querySelectorAll(".section-image");
     if (!images) return;
@@ -92,22 +87,17 @@ const ExploreScroll = () => {
             className="section-image absolute top-0 left-0 w-full h-full object-cover opacity-0"
           />
         ))}
+        {/* The key prop is added here to trigger a re-mount on section change */}
         <InspirationHero
+          key={currentSection.id}
           currentSection={currentSection}
           numbering={true}
-          scrollDirection={scrollDirection}
         />
       </div>
 
       {/* Invisible snapping sections (drives scroll snapping) */}
-      {sections.map((s, index) => (
-        <div
-          key={s.id}
-          ref={(el) => {
-            sectionRefs.current[index] = el;
-          }}
-          className="h-screen snap-start"
-        />
+      {sections.map((s) => (
+        <div key={s.id} className="h-screen snap-start" />
       ))}
     </div>
   );
