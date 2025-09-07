@@ -10,7 +10,7 @@ const Homepage = () => {
   return (
     <>
       <section
-        className="h-fit"
+        className="h-fit overflow-clip"
         // className="snap-y snap-mandatory h-screen overflow-y-scroll scroll-smooth "
       >
         <HeroSection
