@@ -3,7 +3,7 @@ import Contact from "./Contact";
 import Introduction from "../../components/Introduction";
 import backgroundMp4 from "@/assets/HOME/background.mp4";
 import Footer from "@/components/Footer";
-import InspirationScroller from "../ScrollSection";
+// import InspirationScroller from "../ScrollSection";
 import ScrollSection from "../ScrollSection";
 
 const Homepage = () => {

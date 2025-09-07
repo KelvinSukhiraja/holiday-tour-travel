@@ -23,7 +23,12 @@ const Inspiration = () => {
   };
 
   // Create an array of refs, one for each card image
-  const cardImageRefs = useRef<Array<HTMLImageElement | null>>([]);
+  // const cardImageRefs = useRef<Array<HTMLImageElement | null>>([]);
+  const cardImageRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const setCardImageRef = (index: number) => (el: HTMLImageElement | null) => {
+    cardImageRefs.current[index] = el;
+  };
+
   useGSAP(() => {
     const tl = gsap.timeline({
       defaults: { ease: "power1.inOut", opacity: 0 },
@@ -90,7 +95,7 @@ const Inspiration = () => {
               >
                 <Card
                   // Assign the ref from our array to the Card component
-                  ref={(el) => (cardImageRefs.current[index] = el)}
+                  ref={setCardImageRef(index)}
                   image={section.image}
                   title={section.title}
                   description={section.description}

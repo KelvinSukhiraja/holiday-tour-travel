@@ -60,9 +60,9 @@ export function BlogDetail() {
 
   useLayoutEffect(() => {
     if (topicRefs.current.length > 0) {
-      topicRefs.current.forEach((topicRef, index) => {
+      topicRefs.current.forEach((topicRef) => {
         const q = gsap.utils.selector(topicRef);
-        const isEven = index % 2 === 0;
+        // const isEven = index % 2 === 0;
 
         // Animate the content (text)
         gsap.fromTo(
