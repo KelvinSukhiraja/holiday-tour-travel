@@ -55,8 +55,8 @@ export const TransitionProvider = ({
       height: "100vh",
       //   scale: 10,
       borderRadius: 0, // Animate border radius to square
-      duration: 1,
-      ease: "power.inOut",
+      duration: 0.7,
+      ease: "expoScale(0.5,7,power1.out)",
       onComplete: () => {
         // 3. Navigate after animation
         navigate(to);
@@ -68,6 +68,10 @@ export const TransitionProvider = ({
         }, 100);
       },
     });
+
+    // gsap.to(clone, {
+    //   borderRadius: 0,
+    // });
   };
 
   return (

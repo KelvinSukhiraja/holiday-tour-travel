@@ -58,7 +58,7 @@ const Footer = () => {
   return (
     <section
       ref={footerRef}
-      className="md:h-[60vh] bg-A flex flex-col text-white md:px-32 px-8 py-10"
+      className="h-screen bg-A flex flex-col text-white md:px-32 px-8 py-16"
     >
       {/* Top Section */}
       <div className="grid md:grid-cols-3 w-full h-full">
@@ -79,12 +79,9 @@ const Footer = () => {
           </div>
         </div>
         {/* Second Section */}
-        <div
-          id="second-section"
-          className="md:col-span-2 flex flex-col justify-between"
-        >
+        <div id="second-section" className="md:col-span-2 grid grid-rows-3">
           {/* Second Top */}
-          <div className="flex justify-between py-7">
+          <div className="flex justify-between">
             <nav
               id="nav-links"
               className="first-text flex flex-wrap gap-5 md:gap-10 w-2/3"
@@ -104,7 +101,7 @@ const Footer = () => {
             </a>
           </div>
           {/* Second Bot */}
-          <div className="fourth-text flex flex-col gap-3 py-5 third-text justify-between">
+          <div className="third-text flex flex-col gap-5 py-5 third-text justify-center row-span-2">
             <span id="stay-connected-text">Stay Connected</span>
             <ul
               id="socials-list"
@@ -114,7 +111,7 @@ const Footer = () => {
                 <Link
                   key={social.label}
                   to={social.link}
-                  className="the-hover the-transition"
+                  className="the-transition"
                 >
                   {social.label}
                 </Link>

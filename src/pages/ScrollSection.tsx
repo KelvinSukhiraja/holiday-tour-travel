@@ -4,9 +4,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { sections } from "@/lib/utils";
 import InspirationHero from "@/components/InspirationHero";
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
-
 const ExploreScroll = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSection, setCurrentSection] = useState(sections[0]);
@@ -74,7 +71,7 @@ const ExploreScroll = () => {
   return (
     <div
       ref={containerRef}
-      className="relative h-[500vh] snap-y snap-mandatory"
+      className="relative h-[700vh] snap-y snap-mandatory"
     >
       {/* Sticky background & hero */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">

@@ -56,22 +56,23 @@ export function BlogList({ continent }: { continent: string }) {
 
   return (
     <div className="px-8 md:px-32 py-20 flex gap-5 overflow-x-auto scroll-auto">
-      {posts.map((post) => (
-        <Link
-          to={`/blogs/${continent}/${post._id}`}
-          key={post._id}
-          className="w-3/4 md:w-1/4 flex flex-col gap-3 flex-shrink-0"
-        >
-         
-          <img
-            className="w-full aspect-[6/7] object-cover object-center"
-            src={post.topic?.[0]?.photos?.[0]?.asset.url}
-          />
-          <h2 className="text-center second-text text-A">
-            {post.title}
-          </h2>
-        </Link>
-      ))}
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <Link
+            to={`/blogs/${continent}/${post._id}`}
+            key={post._id}
+            className="w-3/4 md:w-1/4 flex flex-col gap-3 flex-shrink-0"
+          >
+            <img
+              className="w-full aspect-[6/7] object-cover object-center"
+              src={post.topic?.[0]?.photos?.[0]?.asset.url}
+            />
+            <h2 className="text-center second-text text-A">{post.title}</h2>
+          </Link>
+        ))
+      ) : (
+        <div className="third-text text-A italic">No blogs available.</div>
+      )}
     </div>
   );
 }

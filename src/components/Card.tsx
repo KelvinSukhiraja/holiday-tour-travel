@@ -20,7 +20,7 @@ const Card = React.forwardRef<HTMLImageElement, CardProps>(
             ref={ref}
             src={image}
             alt={title}
-            className="object-cover object-center h-full w-full rounded-[104px]"
+            className="object-cover object-center h-full w-full rounded-[85px]"
           />
         </div>
 
