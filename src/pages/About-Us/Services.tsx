@@ -39,7 +39,7 @@ const Services = () => {
     <section
       id={"introduction"}
       ref={introRef}
-      className="snap-start h-[60vh] md:h-[90vh] flex items-center px-8 md:px-32 bg-A text-white"
+      className="snap-start flex items-center px-8 md:px-32 py-10 md:py-16  bg-A text-white"
     >
       <div className="grid md:grid-cols-4 gap-2 w-full">
         <p id="intro-label" className="third-text">

@@ -60,10 +60,10 @@ const Contact = () => {
     <section
       ref={contactRef}
       id="contact"
-      className="min-h-screen grid grid-cols-1 md:grid-cols-2 relative"
+      className="md:h-screen grid grid-cols-1 md:grid-cols-2 relative overflow-clip"
     >
       {/* Left side image */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden h-[50vh] md:h-screen">
         <img
           src={contactJpg}
           alt="Contact Us"
@@ -79,9 +79,7 @@ const Contact = () => {
           className="flex flex-col gap-4 text-center md:text-left"
           id="contact-header"
         >
-          <h1 className="first-text text-2xl sm:text-3xl md:text-4xl">
-            Reach Out to Explore
-          </h1>
+          <h1 className="first-text">Reach Out to Explore</h1>
           <p className="fourth-text">
             From tranquil getaways to thrilling adventures, we're here to help
             craft a journey made just for you. Reach out and let’s start

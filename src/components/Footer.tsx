@@ -58,10 +58,10 @@ const Footer = () => {
   return (
     <section
       ref={footerRef}
-      className="h-screen bg-A flex flex-col text-white md:px-32 px-8 py-16"
+      className="h-screen bg-A flex flex-col text-white md:px-32 px-8 md:py-16 py-8"
     >
       {/* Top Section */}
-      <div className="grid md:grid-cols-3 w-full h-full">
+      <div className="grid md:grid-cols-3 w-full h-full md:pt-10">
         {/* First Section */}
         <div id="first-section" className="flex flex-col gap-5 md:gap-10 h-fit">
           <img
@@ -79,12 +79,12 @@ const Footer = () => {
           </div>
         </div>
         {/* Second Section */}
-        <div id="second-section" className="md:col-span-2 grid grid-rows-3">
+        <div id="second-section" className="md:col-span-2 flex flex-col">
           {/* Second Top */}
-          <div className="flex justify-between">
+          <div className="flex justify-between ">
             <nav
               id="nav-links"
-              className="first-text flex flex-wrap gap-5 md:gap-10 w-2/3"
+              className="first-text flex flex-wrap gap-5 md:gap-14 w-2/3"
             >
               {navItems.map((item) => (
                 <Link
@@ -101,7 +101,7 @@ const Footer = () => {
             </a>
           </div>
           {/* Second Bot */}
-          <div className="third-text flex flex-col gap-5 py-5 third-text justify-center row-span-2">
+          <div className="third-text flex flex-col gap-5 md:py-5 third-text justify-end h-full">
             <span id="stay-connected-text">Stay Connected</span>
             <ul
               id="socials-list"

@@ -1,103 +1,197 @@
-import { useState, useEffect, useRef } from "react";
-import { gsap } from "gsap";
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { sections } from "@/lib/utils";
 import InspirationHero from "@/components/InspirationHero";
 
-const ExploreScroll = () => {
+gsap.registerPlugin(ScrollTrigger);
+
+export default function ImageStackScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const overlayRefs = useRef<(HTMLDivElement | null)[]>([]); // Ref for the overlays
   const [currentSection, setCurrentSection] = useState(sections[0]);
+  const prevIndexRef = useRef(0);
 
-  // Preload images
-  useEffect(() => {
-    sections.forEach(({ image }) => {
-      const img = new Image();
-      img.src = image;
-    });
-  }, []);
+  // useGSAP(
+  //   () => {
+  //     const screenHeight = window.innerHeight;
 
-  // Setup GSAP ScrollTrigger
-  useEffect(() => {
-    if (!containerRef.current) return;
+  //     // Set initial state for all overlays to be transparent
+  //     gsap.set(overlayRefs.current, { opacity: 0 });
 
-    const container = containerRef.current;
-    const totalSections = sections.length;
+  //     imageRefs.current.forEach((img, i) => {
+  //       if (!img) return;
 
-    // Create ScrollTrigger for section changes
-    const scrollTriggerInstance = ScrollTrigger.create({
-      trigger: container,
-      start: "top top",
-      end: "bottom bottom",
-      scrub: false,
-      onUpdate: (self) => {
-        const progress = self.progress;
-        const sectionIndex = Math.round(progress * (totalSections - 1));
-        const clampedIndex = Math.max(
-          0,
-          Math.min(sectionIndex, totalSections - 1)
-        );
+  //       // --- Image Slide and Scale Animation ---
+  //       if (i > 0) {
+  //         gsap.fromTo(
+  //           img,
+  //           { y: "100%", width: "90%", xPercent: 5 },
+  //           {
+  //             y: "0%",
+  //             width: "100%",
+  //             xPercent: 0,
+  //             ease: "power1.inOut",
+  //             scrollTrigger: {
+  //               trigger: containerRef.current,
+  //               start: `${(i - 1) * screenHeight}px top`,
+  //               end: `${i * screenHeight}px top`,
+  //               scrub: true,
+  //             },
+  //           }
+  //         );
+  //       }
 
-        if (
-          sections[clampedIndex] &&
-          sections[clampedIndex].id !== currentSection.id
-        ) {
-          setCurrentSection(sections[clampedIndex]);
+  //       // --- Darkening Effect for Previous Image ---
+  //       // This animates the overlay of the *previous* image (i-1)
+  //       // as the *current* image (i) comes into view.
+  //       if (i > 0) {
+  //         const prevOverlay = overlayRefs.current[i - 1];
+  //         if (prevOverlay) {
+  //           gsap.to(prevOverlay, {
+  //             opacity: 0.7, // Target darkness. Adjust as needed.
+  //             ease: "none",
+  //             scrollTrigger: {
+  //               trigger: containerRef.current,
+  //               start: `${(i - 1) * screenHeight + screenHeight / 10}px top`, // Start darkening halfway through the previous section
+  //               end: `${i * screenHeight}px top`, // Fully dark when the new image is in place
+  //               scrub: true,
+  //             },
+  //           });
+  //         }
+  //       }
+
+  //       // --- State Update Triggers for Text ---
+  //       ScrollTrigger.create({
+  //         trigger: containerRef.current,
+  //         start: `${i * screenHeight - screenHeight * 0.4}px top`,
+  //         onEnter: () => setCurrentSection(sections[i]),
+  //       });
+
+  //       ScrollTrigger.create({
+  //         trigger: containerRef.current,
+  //         start: `${i * screenHeight - screenHeight * 0.6}px top`,
+  //         end: `${i * screenHeight}px top`,
+  //         onEnterBack: () => setCurrentSection(sections[i]),
+  //       });
+  //     });
+  //   },
+  //   { scope: containerRef, revertOnUpdate: true }
+  // );
+
+  useGSAP(
+    () => {
+      const screenHeight = window.innerHeight;
+
+      // Set initial state for all overlays to be transparent
+      gsap.set(overlayRefs.current, { opacity: 0 });
+
+      imageRefs.current.forEach((img, i) => {
+        if (!img) return;
+
+        // --- Image Animations ---
+        if (i > 0) {
+          const prevImg = imageRefs.current[i - 1];
+
+          // Create a timeline to sync the animations
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: `${(i - 1) * screenHeight}px top`,
+              end: `${i * screenHeight}px top`,
+              scrub: true,
+            },
+          });
+
+          // 1. New image coming IN
+          tl.fromTo(
+            img,
+            { y: "100%", width: "90%", xPercent: 5 },
+            { y: "0%", width: "100%", xPercent: 0, ease: "power1.inOut" }
+          );
+
+          // 2. Previous image going OUT (scaling down)
+          // The "<" position parameter makes it start at the same time as the previous animation
+          if (prevImg) {
+            tl.to(
+              prevImg,
+              { width: "90%", xPercent: 5, ease: "power1.inOut" },
+              "<"
+            );
+          }
         }
-      },
-    });
 
-    // Cleanup function
-    return () => {
-      scrollTriggerInstance.kill();
-    };
-  }, [currentSection.id]);
+        // --- Darkening Effect for Previous Image ---
+        if (i > 0) {
+          const prevOverlay = overlayRefs.current[i - 1];
+          if (prevOverlay) {
+            gsap.to(prevOverlay, {
+              opacity: 0.7,
+              ease: "none",
+              scrollTrigger: {
+                trigger: containerRef.current,
+                start: `${(i - 1) * screenHeight + screenHeight / 10}px top`,
+                end: `${i * screenHeight}px top`,
+                scrub: true,
+              },
+            });
+          }
+        }
 
-  // Animate image transitions with GSAP
-  useEffect(() => {
-    const images = containerRef.current?.querySelectorAll(".section-image");
-    if (!images) return;
+        // --- State Update Triggers for Text ---
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: `${i * screenHeight - screenHeight * 0.4}px top`,
+          onEnter: () => setCurrentSection(sections[i]),
+        });
 
-    images.forEach((img) => {
-      const isActive =
-        img.getAttribute("data-section-id") === currentSection.id;
-      gsap.to(img, {
-        opacity: isActive ? 1 : 0,
-        duration: 0.7,
-        ease: "power2.out",
+        ScrollTrigger.create({
+          trigger: containerRef.current,
+          start: `${i * screenHeight - screenHeight * 0.6}px top`,
+          end: `${i * screenHeight}px top`,
+          onEnterBack: () => setCurrentSection(sections[i]),
+        });
       });
-    });
-  }, [currentSection.id]);
-
+    },
+    { scope: containerRef, revertOnUpdate: true }
+  );
   return (
     <div
       ref={containerRef}
-      className="relative h-[700vh] snap-y snap-mandatory"
+      className="relative w-full bg-black"
+      style={{ height: `${sections.length * 100}vh` }}
     >
-      {/* Sticky background & hero */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {sections.map((s) => (
-          <img
-            key={s.id}
-            data-section-id={s.id}
-            src={s.image}
-            alt={s.name}
-            className="section-image absolute top-0 left-0 w-full h-full object-cover opacity-0"
-          />
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
+        {sections.map((section, index) => (
+          <div
+            key={index}
+            ref={(el) => (imageRefs.current[index] = el)}
+            className="absolute inset-0 w-full h-full"
+            // Ensure images stack correctly
+            style={{ zIndex: index + 1 }}
+          >
+            <img
+              src={section.image}
+              alt={section.title || `Slide ${index + 1}`}
+              className="w-full h-full object-cover"
+            />
+            {/* Add a darkening overlay div inside each image container */}
+            <div
+              ref={(el) => (overlayRefs.current[index] = el)}
+              className="absolute inset-0 bg-black pointer-events-none"
+            ></div>
+          </div>
         ))}
-        {/* The key prop is added here to trigger a re-mount on section change */}
-        <InspirationHero
-          key={currentSection.id}
-          currentSection={currentSection}
-          numbering={true}
-        />
+        <div className="absolute inset-0 z-50 pointer-events-none">
+          <InspirationHero
+            currentSection={currentSection}
+            numbering
+            prevIndexRef={prevIndexRef}
+          />
+        </div>
       </div>
-
-      {/* Invisible snapping sections (drives scroll snapping) */}
-      {sections.map((s) => (
-        <div key={s.id} className="h-screen snap-start" />
-      ))}
     </div>
   );
-};
-
-export default ExploreScroll;
+}

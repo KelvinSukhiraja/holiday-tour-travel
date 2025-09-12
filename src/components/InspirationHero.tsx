@@ -1,86 +1,77 @@
-import { sections } from "@/lib/utils";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import React, { useRef } from "react";
-
-gsap.registerPlugin(ScrollTrigger);
+import { sections } from "@/lib/utils";
 
 type SectionType = (typeof sections)[number];
 
 type InspirationHeroProps = {
-  style?: React.CSSProperties;
   currentSection: SectionType;
   numbering?: boolean;
+  style?: React.CSSProperties;
 };
 
 const InspirationHero = ({
-  style,
   currentSection,
   numbering,
+  style,
 }: InspirationHeroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const prevSectionRef = useRef<SectionType | null>(null);
 
-  useGSAP(() => {
+  useEffect(() => {
     if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 70%", // when top of section hits 70% viewport
-          toggleActions: "play none none reset",
-          // play on enter, reset when leaving (can adjust)
-        },
-        defaults: { ease: "power1.inOut", opacity: 0 },
-      });
+      const timeline = gsap.timeline();
 
-      tl.from("#head, #subhead", {
-        yPercent: 30,
-        duration: 0.7,
-        stagger: 0.1,
-      })
-        // .from(".numbering", {
-        //   opacity: 0,
-        // })
-        .from("#number1", {
-          y: -10,
+      // Fade out previous section
+      if (prevSectionRef.current) {
+        timeline.to("#head, #subhead, #number1", {
+          opacity: 0,
+          y: -20,
           duration: 0.3,
+          stagger: 0.05,
         });
+      }
+
+      // Fade in current section
+      timeline.fromTo(
+        "#head, #subhead, #number1",
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 0.5, stagger: 0.05 }
+      );
     }, containerRef);
 
-    return () => ctx.revert(); // cleanup
-  }, []);
+    prevSectionRef.current = currentSection;
+
+    return () => ctx.revert();
+  }, [currentSection]);
 
   return (
-    <div ref={containerRef} className="h-screen w-full">
-      <section
-        style={style}
-        className="h-screen flex items-center px-8 md:px-32 relative"
-      >
-        <div className="grid md:grid-cols-3 gap-2 text-white z-10">
-          <p className="third-text">Inspiration</p>
-          <div
-            key={currentSection.id}
-            className="col-span-2 flex flex-col md:gap-6 gap-2"
-          >
-            <h1 className="first-text" id="head">
-              {currentSection.title}
-            </h1>
-            <p className="fourth-text max-w-md" id="subhead">
-              {currentSection.description}
-            </p>
-          </div>
-          {numbering ? (
-            <div className="absolute bottom-10 right-20 fourth-text numbering flex">
-              <p id="number1">
-                {sections.findIndex((s) => s.id === currentSection.id) + 1}
-              </p>
-              /{sections.length}
-            </div>
-          ) : null}
+    <div
+      ref={containerRef}
+      className="h-screen w-full flex items-center justify-center pointer-events-none"
+      style={style}
+    >
+      <div className="grid md:grid-cols-3 gap-2 text-white z-10 p-5">
+        <p className="third-text">Inspiration</p>
+        <div className="col-span-2 flex flex-col md:gap-6 gap-2">
+          <h1 className="first-text" id="head">
+            {currentSection.title}
+          </h1>
+          <p className="fourth-text max-w-md" id="subhead">
+            {currentSection.description}
+          </p>
         </div>
-      </section>
+        {numbering && (
+          <div className="absolute bottom-10 right-20 fourth-text numbering flex">
+            <p id="number1">
+              {sections.findIndex((s) => s.id === currentSection.id) + 1}
+            </p>
+            /{sections.length}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

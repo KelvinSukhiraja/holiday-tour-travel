@@ -53,17 +53,21 @@ const Clients = () => {
     { scope: clientRef, revertOnUpdate: true }
   );
   return (
-    <section className="h-screen grid md:grid-cols-2 relative" ref={clientRef}>
-      <div className="relative overflow-hidden">
+    <section
+      className="md:h-screen grid md:grid-cols-2 relative"
+      ref={clientRef}
+    >
+      <div className="relative overflow-hidden h-[50vh] md:h-screen">
         <img
           src={AboutBg2}
           alt="Contact Us"
           id="client-img"
-          className="absolute inset-0 w-full h-[140%] object-cover object-bottom"
+          className="absolute inset-0 w-full h-[140%] object-cover object-center md:object-bottom"
           loading="lazy"
         />
       </div>
-      <div className="px-8 md:px-32 flex flex-col justify-center items-center w-full gap-5 bg-white-a text-A">
+
+      <div className="px-8 md:px-32 py-10 flex flex-col justify-center items-center w-full gap-5 bg-white-a text-A">
         <div className="flex flex-col gap-3" id="client-header">
           <h1 className="first-text">Corporate Clients</h1>
           <p className="fourth-text">

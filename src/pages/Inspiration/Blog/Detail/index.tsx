@@ -76,8 +76,8 @@ export function BlogDetail() {
             opacity: 1,
             scrollTrigger: {
               trigger: topicRef,
-              start: "top 50%",
-              end: "center center",
+              start: "top 80%", // start earlier (when section is lower)
+              end: "top center",
               scrub: 1,
             },
           }
@@ -96,8 +96,8 @@ export function BlogDetail() {
             stagger: 0.2, // Stagger for multiple photos
             scrollTrigger: {
               trigger: topicRef,
-              start: "top 50%",
-              end: "center center",
+              start: "top 80%", // start earlier (when section is lower)
+              end: "top center",
               scrub: 1,
             },
           }
@@ -167,7 +167,7 @@ export function BlogDetail() {
               <div
                 key={index}
                 ref={addToRefs} // Add ref to the topic container
-                className={`grid grid-rows-2 md:grid-rows-1 md:grid-cols-2 gap-5 relative ${
+                className={`grid grid-rows-1 md:grid-cols-2 gap-5 relative ${
                   index > 0 ? "md:-mt-10" : ""
                 }`}
               >
@@ -175,12 +175,12 @@ export function BlogDetail() {
                   {photos(t, isEven)}
                 </div>
                 <div
-                  className={`topic-content flex flex-col md:justify-center gap-5 w-4/5 ${
-                    isEven ? "justify-self-end" : ""
+                  className={`topic-content flex flex-col gap-3 w-full md:w-4/5 mt-8 mb-16 md:justify-center ${
+                    isEven ? "md:justify-self-end" : ""
                   }`}
                 >
                   <h2 className="second-text">{t.topic}</h2>
-                  <p className="fourth-text max-w-md">
+                  <p className="fourth-text md:max-w-md">
                     <PortableText value={t.description} />
                   </p>
                 </div>

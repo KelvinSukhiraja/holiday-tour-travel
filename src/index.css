@@ -128,6 +128,19 @@
     @apply text-3xl;
   }
   .first-text {
+    @apply text-3xl;
+  }
+  .second-text {
+    @apply text-xl;
+  }
+  .third-text {
+    @apply text-lg md:text-base;
+  }
+  .fourth-text {
+    @apply text-base md:text-xs;
+  }
+
+  /* .first-text {
     @apply text-xl md:text-3xl;
   }
   .second-text {
@@ -137,8 +150,7 @@
     @apply text-base;
   }
   .fourth-text {
-    @apply text-xs;
-  }
+    @apply text-xs; */
   /* Animation */
   .the-transition {
     @apply ease-in-out duration-400;
