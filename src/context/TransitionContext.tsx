@@ -76,22 +76,21 @@ export const TransitionProvider = ({
       },
     });
 
-    // Step 1: move clone + fade in blur together
-    tl.to(
-      clone,
-      {
-        top: "50%",
-        // left: "50%",
-        yPercent: -50,
-        // xPercent: 50,
-        height: "80vh",
-        width: "10vw",
-        duration: 0.7,
-        ease: "power2.out",
-      },
-      0
-    ) // <- 0 means "start at the same time"
-
+    tl
+      // Step 1: PERFECTLY center the clone and scale it up.
+      .to(
+        clone,
+        {
+          top: "50%",
+          left: "50%", // <-- Add this to move the left edge to the middle
+          xPercent: -50, // <-- Add this to pull it back by 50% of its own width
+          yPercent: -50, // This handles the vertical centering
+          scale: 2,
+          duration: 0.7,
+          ease: "power2.out",
+        },
+        0
+      )
       .to(
         blurOverlay,
         {
@@ -100,24 +99,15 @@ export const TransitionProvider = ({
           ease: "power2.out",
         },
         0
-      ) // <- also start at the same time
+      )
 
-      // Step 2: expand clone to full screen
-      .to(clone, {
-        // width: "90vw",
-        // height: "90vh",
-        left: "50%",
-        xPercent: -50,
-        // borderRadius: 20,
-        duration: 1,
-        ease: "power2.inOut",
-      })
-
+      // Step 2: Expand from the center.
+      // Notice we are ONLY changing size and scale here.
       .to(clone, {
         width: "100vw",
         height: "100vh",
         borderRadius: 0,
-        // left: 0,
+        scale: 1,
         duration: 1.5,
         ease: "power2.inOut",
       });
