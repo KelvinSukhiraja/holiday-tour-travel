@@ -16,7 +16,7 @@ interface HeroSectionProps {
   ctaText?: string;
   ctaHref?: string;
   background?:
-    | { type: "video"; sources: VideoSource[] }
+    | { type: "video"; sources: VideoSource[]; poster?: string }
     | { type: "image"; src: string; alt?: string };
   backgroundClassName?: string;
   className?: string;
@@ -78,6 +78,7 @@ export default function HeroSection({
           loop
           playsInline
           preload="auto"
+          poster={background.poster}
         >
           {background.sources.map((source, idx) => (
             <source key={idx} src={source.src} type={source.type} />
