@@ -50,7 +50,7 @@ const InspirationHero = ({
   return (
     <div
       ref={containerRef}
-      className="h-screen w-full flex items-center justify-center pointer-events-none"
+      className="h-screen w-full flex items-center px-8 md:px-32 py-10 md:py-16 pointer-events-none "
       style={style}
     >
       <div className="grid md:grid-cols-3 gap-2 text-white z-10 p-5">
