@@ -8,9 +8,13 @@ import { useTransition } from "@/context/TransitionContext";
 import { useRef } from "react"; // NEW: Import useState
 import CursorFollower from "@/components/CursorFollower"; // NEW: Import the cursor
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useCursorFollower } from "@/hooks/useCursorFollower";
 
 const Inspiration = () => {
   const { startTransition } = useTransition();
+
+  const cardSectionRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useCursorFollower(cardSectionRef);
 
   const handleCardClick = (
     event: React.MouseEvent<HTMLAnchorElement>,
@@ -28,10 +32,6 @@ const Inspiration = () => {
   const setCardImageRef = (index: number) => (el: HTMLImageElement | null) => {
     cardImageRefs.current[index] = el;
   };
-
-  // NEW: Refs and state for the cursor follower
-  const cardSectionRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     // --- Your existing timeline animation ---
@@ -60,53 +60,7 @@ const Inspiration = () => {
         "-=1"
       )
       .from(".card", { opacity: 0, stagger: 0.3 }, "-=0.5");
-
-    // NEW: Cursor follower logic
-    const cardSection = cardSectionRef.current;
-    if (!cardSection || !cursorRef.current) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      // Animate the cursor follower's position smoothly
-      gsap.to(cursorRef.current, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.4,
-        ease: "power2.out",
-      });
-
-      // Update the text based on mouse position
-      // const rect = cardSection.getBoundingClientRect();
-      // const threshold = rect.width * 0.2; // 20% from each edge
-
-      // if (e.clientX < rect.left + threshold) {
-      //   setCursorText("Scroll Left");
-      // } else if (e.clientX > rect.right - threshold) {
-      //   setCursorText("Scroll Right");
-      // } else {
-      //   setCursorText(""); // No text in the middle
-      // }
-    };
-
-    const handleMouseEnter = () => {
-      gsap.to(cursorRef.current, { scale: 1, opacity: 1, duration: 0.3 });
-    };
-
-    const handleMouseLeave = () => {
-      gsap.to(cursorRef.current, { scale: 0, opacity: 0, duration: 0.3 });
-    };
-
-    // Add event listeners
-    cardSection.addEventListener("mousemove", handleMouseMove);
-    cardSection.addEventListener("mouseenter", handleMouseEnter);
-    cardSection.addEventListener("mouseleave", handleMouseLeave);
-
-    // Cleanup function to remove listeners
-    return () => {
-      cardSection.removeEventListener("mousemove", handleMouseMove);
-      cardSection.removeEventListener("mouseenter", handleMouseEnter);
-      cardSection.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, []); // Empty dependency array ensures this runs once
+  }, []);
 
   return (
     <>
@@ -114,8 +68,8 @@ const Inspiration = () => {
       <CursorFollower ref={cursorRef}>
         {/* Pass the icon and text as children */}
         <ArrowLeft size={16} className="mr-2" />
-        Scroll Left to Right
-        <ArrowRight size={16} className="mr-2" />
+        Scroll
+        <ArrowRight size={16} className="ml-2" />
       </CursorFollower>
 
       <section

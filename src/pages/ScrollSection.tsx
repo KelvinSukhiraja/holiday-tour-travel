@@ -100,7 +100,7 @@ export default function ImageStackScroll() {
       style={{ height: `${sections.length * 100}vh` }}
     >
       <CursorFollower ref={cursorRef}>
-        Scroll down &nbsp; <ArrowDown size={16} className="" />
+        Scroll &nbsp; <ArrowDown size={16} className="" />
       </CursorFollower>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         {sections.map((section, index) => (
