@@ -6,6 +6,7 @@ import { sections } from "@/lib/utils";
 import InspirationHero from "@/components/InspirationHero";
 import CursorFollower from "@/components/CursorFollower";
 import { ArrowDown } from "lucide-react";
+import { useCursorFollower } from "@/hooks/useCursorFollower";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,13 +16,12 @@ export default function ImageStackScroll() {
   const overlayRefs = useRef<(HTMLDivElement | null)[]>([]); // Ref for the overlays
   const [currentSection, setCurrentSection] = useState(sections[0]);
 
-  const cursorRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useCursorFollower(containerRef);
 
   useGSAP(
     () => {
       const screenHeight = window.innerHeight;
 
-      // Set initial state for all overlays to be transparent
       gsap.set(overlayRefs.current, { opacity: 0 });
 
       imageRefs.current.forEach((img, i) => {
@@ -90,37 +90,6 @@ export default function ImageStackScroll() {
           onEnterBack: () => setCurrentSection(sections[i]),
         });
       });
-      const cardSection = containerRef.current;
-      if (!cardSection || !cursorRef.current) return;
-
-      const handleMouseMove = (e: MouseEvent) => {
-        // Animate the cursor follower's position smoothly
-        gsap.to(cursorRef.current, {
-          x: e.clientX,
-          y: e.clientY,
-          duration: 0.4,
-          ease: "power2.out",
-        });
-      };
-      const handleMouseEnter = () => {
-        gsap.to(cursorRef.current, { scale: 1, opacity: 1, duration: 0.3 });
-      };
-
-      const handleMouseLeave = () => {
-        gsap.to(cursorRef.current, { scale: 0, opacity: 0, duration: 0.3 });
-      };
-
-      // Add event listeners
-      cardSection.addEventListener("mousemove", handleMouseMove);
-      cardSection.addEventListener("mouseenter", handleMouseEnter);
-      cardSection.addEventListener("mouseleave", handleMouseLeave);
-
-      // Cleanup function to remove listeners
-      return () => {
-        cardSection.removeEventListener("mousemove", handleMouseMove);
-        cardSection.removeEventListener("mouseenter", handleMouseEnter);
-        cardSection.removeEventListener("mouseleave", handleMouseLeave);
-      };
     },
     { scope: containerRef, revertOnUpdate: true }
   );
@@ -131,8 +100,7 @@ export default function ImageStackScroll() {
       style={{ height: `${sections.length * 100}vh` }}
     >
       <CursorFollower ref={cursorRef}>
-        Scroll down
-        <ArrowDown size={16} className="" />
+        Scroll down &nbsp; <ArrowDown size={16} className="" />
       </CursorFollower>
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         {sections.map((section, index) => (

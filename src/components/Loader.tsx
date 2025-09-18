@@ -6,25 +6,27 @@ import gsap from "gsap";
 // The onComplete function will remove the loader from the DOM
 interface LoaderProps {
   onComplete: () => void;
+  animateOut?: boolean;
 }
 
-export function Loader({ onComplete }: LoaderProps) {
+export function Loader({ onComplete, animateOut = false }: LoaderProps) {
   const loaderRef = useRef<HTMLDivElement>(null);
 
   // Animate the loader out when this component is told to unmount
   // or when loading is complete. We'll trigger this from the App component.
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      onComplete: onComplete, // Call the passed function when the animation finishes
-    });
+  useGSAP(
+    () => {
+      if (!animateOut) return;
 
-    tl.to(loaderRef.current, {
-      yPercent: -100, // Slide up
-      //   opacity: 0,
-      duration: 1.2,
-      ease: "power3.inOut",
-    });
-  }, []); // The empty dependency array means this animation is ready to go
+      const tl = gsap.timeline({ onComplete });
+      tl.to(loaderRef.current, {
+        yPercent: -100,
+        duration: 1.2,
+        ease: "power3.inOut",
+      });
+    },
+    { dependencies: [animateOut] }
+  );
 
   return (
     <div
