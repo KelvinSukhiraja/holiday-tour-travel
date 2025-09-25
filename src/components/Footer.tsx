@@ -111,6 +111,7 @@ const Footer = () => {
                 <Link
                   key={social.label}
                   to={social.link}
+                  target="_blank"
                   className="the-transition"
                 >
                   {social.label}

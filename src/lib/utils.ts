@@ -71,7 +71,6 @@ export const sections = [
   },
 ];
 
-
 export const travels_type = [
   {
     label: "Leisure",
@@ -129,22 +128,65 @@ export const months = [
 export const socials = [
   {
     label: "INSTAGRAM",
-    link: "/",
+    link: "https://www.instagram.com/holidaytour.id/",
   },
   {
-    label: "FACEBOOK",
-    link: "/",
+    label: "WHATSAPP",
+    link: "https://wa.me/6281882823299",
+  },
+];
+
+import METRODATA from "@/assets/ABOUT-US/CLIENTS/METRODATA.png";
+import DAMNINC from "@/assets/ABOUT-US/CLIENTS/DAMNINC.png";
+import CITYNEON from "@/assets/ABOUT-US/CLIENTS/CITYNEON.png";
+import MII from "@/assets/ABOUT-US/CLIENTS/MII.png";
+import ICT from "@/assets/ABOUT-US/CLIENTS/ICT.png";
+// import CITYNEON from "@/assets/CLIENT/CITYNEON.png";
+
+export const clients = [
+  {
+    label: "PT Metrodata Electronics",
+    image: METRODATA,
+    summary:
+      "PT. Metrodata Electronics Tbk, known as Metrodata Group, is the leading information communication technology (ICT) companies in Indonesia. ",
   },
   {
-    label: "LINKEDIN",
-    link: "/",
+    label: "Damn Inc Indonesia",
+    image: DAMNINC,
+    summary:
+      "DAMN! Inc's Vision is to build an Indonesian entertainment company that spans the Globe. ",
   },
   {
-    label: "YOUTUBE",
-    link: "/",
+    label: "PT City Neon",
+    image: CITYNEON,
+    summary:
+      "Founded in 1983, we area guided by the principles of excellence coupled with an unwavering commitment to deliver on our promises.",
   },
   {
-    label: "TIKTOK",
-    link: "/",
+    label: "MII",
+    image: MII,
+    summary:
+      "PT. Mitra Integrasi Informatika (MII) didirikan pada tanggal 1 Maret 1996 sebagai anak perusahaan dari PT Metrodata Electronics, Tbk yang terdaftar secara publik. ",
+  },
+  {
+    label: "X - Fusion",
+    image: "",
+    summary: "",
+  },
+  {
+    label: "SMI",
+    image: "",
+    summary: "",
+  },
+  {
+    label: "ICT",
+    image: ICT,
+    summary:
+      " PT InfraCom Technology (ICT) was founded in 2006 with a very clear vision to be one of the best IT solution provider in Indonesia by ensuring our customers with the highest level of satisfaction.",
+  },
+  {
+    label: "Panca In House",
+    image: "",
+    summary: "",
   },
 ];

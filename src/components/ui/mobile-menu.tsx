@@ -45,6 +45,7 @@ const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
                   <Link
                     key={social.link}
                     to={social.link}
+                    target="_blank"
                     className="the-hover the-transition"
                     onClick={() => setOpen(false)} // 👈 close after click
                   >

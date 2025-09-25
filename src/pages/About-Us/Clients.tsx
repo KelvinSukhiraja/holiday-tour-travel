@@ -53,11 +53,8 @@ const Clients = () => {
     { scope: clientRef, revertOnUpdate: true }
   );
   return (
-    <section
-      className="md:h-screen grid md:grid-cols-2 relative"
-      ref={clientRef}
-    >
-      <div className="relative overflow-hidden h-[50vh] md:h-screen">
+    <section className="grid md:grid-cols-2 relative" ref={clientRef}>
+      <div className="relative overflow-hidden h-[50vh] md:min-h-full">
         <img
           src={AboutBg2}
           alt="Contact Us"
