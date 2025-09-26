@@ -33,7 +33,7 @@ export function AccordionSection() {
         } else {
           return (
             <AccordionItem value={index.toString()}>
-              <div className="w-full flex py-4">
+              <div className="w-full flex py-4 text-sm font-medium">
                 <span className="w-1/2">{index + 1}</span>
                 <h1 className="w-full">{client.label}</h1>
               </div>
