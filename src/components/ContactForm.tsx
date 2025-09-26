@@ -29,6 +29,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import countries from "world-countries";
 import { Textarea } from "./ui/textarea";
+import { useState } from "react";
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -41,6 +42,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionStatus, setSubmissionStatus] = useState(null);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,10 +56,35 @@ export default function ContactForm() {
     },
   });
 
-  function onSubmit(values: FormValues) {
-    // Here you would typically send the data to your API
-    console.log(values);
-    alert("Form submitted! Check the console for the data.");
+  async function onSubmit(values: FormValues) {
+    setIsSubmitting(true);
+    setSubmissionStatus(null); // Reset status on new submission
+
+    try {
+      const response = await fetch("/api/send", {
+        // The API endpoint we'll create
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // Handle success
+      setSubmissionStatus("success");
+      form.reset(); // Clear the form fields
+    } catch (error) {
+      // Handle error
+      console.error("Failed to send message:", error);
+      setSubmissionStatus("error");
+    } finally {
+      // Re-enable the button
+      setIsSubmitting(false);
+    }
   }
 
   // Map countries, extract common name and construct the full IDD code
@@ -215,10 +244,20 @@ export default function ContactForm() {
           )}
         />
         <div className="w-full flex justify-end">
-          <Button type="submit" variant={"ghost"}>
-            Send
+          <Button type="submit" variant={"ghost"} disabled={isSubmitting}>
+            {isSubmitting ? "Sending..." : "Send"}
           </Button>
         </div>
+        {submissionStatus === "success" && (
+          <p className="text-sm text-green-600 mt-2">
+            Message sent successfully!
+          </p>
+        )}
+        {submissionStatus === "error" && (
+          <p className="text-sm text-red-600 mt-2">
+            Something went wrong. Please try again.
+          </p>
+        )}
       </form>
     </Form>
   );
