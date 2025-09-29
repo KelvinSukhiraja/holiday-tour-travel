@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import emailjs from "@emailjs/browser";
 
 import {
   Form,
@@ -29,8 +31,8 @@ import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import countries from "world-countries";
 import { Textarea } from "./ui/textarea";
-import { useState } from "react";
 
+// Schema and Type Definitions
 const formSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
   email: z.string().email("Invalid email address"),
@@ -38,12 +40,17 @@ const formSchema = z.object({
   country: z.string().min(1, "Country is required"),
   message: z.string().optional(),
 });
-
 type FormValues = z.infer<typeof formSchema>;
 
+// --- 1. Get your EmailJS keys from environment variables ---
+const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
 export default function ContactForm() {
+  // --- 2. Add state for submission status ---
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -56,50 +63,35 @@ export default function ContactForm() {
     },
   });
 
-  async function onSubmit(values: FormValues) {
+  // --- 3. The onSubmit function with EmailJS logic ---
+  function onSubmit(values: FormValues) {
     setIsSubmitting(true);
-    setSubmissionStatus(null); // Reset status on new submission
+    setStatusMessage("Sending...");
 
-    try {
-      const response = await fetch("/api/send", {
-        // The API endpoint we'll create
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
+    emailjs
+      .send(serviceId, templateId, values, publicKey)
+      .then((response) => {
+        console.log("SUCCESS!", response.status, response.text);
+        setStatusMessage("✅ Message sent successfully!");
+        form.reset(); // Reset form fields after success
+      })
+      .catch((err) => {
+        console.error("FAILED...", err);
+        setStatusMessage(`❌ Failed to send message.`);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+        setTimeout(() => setStatusMessage(""), 5000); // Clear message after 5 seconds
       });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      // Handle success
-      setSubmissionStatus("success");
-      form.reset(); // Clear the form fields
-    } catch (error) {
-      // Handle error
-      console.error("Failed to send message:", error);
-      setSubmissionStatus("error");
-    } finally {
-      // Re-enable the button
-      setIsSubmitting(false);
-    }
   }
 
-  // Map countries, extract common name and construct the full IDD code
+  // Your country list logic...
   const countryList = countries
     .map((c) => {
       const iddCode = c.idd.root + (c.idd.suffixes ? c.idd.suffixes[0] : "");
-      return {
-        label: c.name.common,
-        value: c.name.common,
-        idd: iddCode,
-      };
+      return { label: c.name.common, value: c.name.common, idd: iddCode };
     })
     .sort((a, b) => a.label.localeCompare(b.label));
-
-  // Watch the selected country to dynamically update the phone field's placeholder
   const selectedCountry = form.watch("country");
   const countryPhoneCode =
     countryList.find((c) => c.value === selectedCountry)?.idd || "";
@@ -107,12 +99,13 @@ export default function ContactForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-1 w-full">
+        {/* All your FormField components remain exactly the same */}
         <FormField
           control={form.control}
           name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-A">Full Name</FormLabel>
+              <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your name"
@@ -124,7 +117,6 @@ export default function ContactForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="email"
@@ -135,15 +127,14 @@ export default function ContactForm() {
                 <Input
                   type="email"
                   placeholder="Enter your email address"
-                  className="bg-gray-a px-4 py-2"
                   {...field}
+                  className="bg-gray-a px-4 py-2"
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="country"
@@ -181,7 +172,6 @@ export default function ContactForm() {
                             value={country.value}
                             onSelect={() => {
                               form.setValue("country", country.value);
-                              // Automatically set the phone field with the new country's IDD code
                               form.setValue("phone", country.idd);
                             }}
                           >
@@ -205,7 +195,6 @@ export default function ContactForm() {
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="phone"
@@ -215,17 +204,15 @@ export default function ContactForm() {
               <FormControl>
                 <Input
                   type="tel"
-                  pattern="[0-9]*"
                   placeholder={`${countryPhoneCode} Enter your phone number`}
-                  className="bg-gray-a px-4 py-2"
                   {...field}
+                  className="bg-gray-a px-4 py-2"
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-
         <FormField
           control={form.control}
           name="message"
@@ -235,29 +222,22 @@ export default function ContactForm() {
               <FormControl>
                 <Textarea
                   placeholder="Tell us what you need"
-                  className="bg-gray-a px-4 py-2 h-24 resize-none"
                   {...field}
+                  className="bg-gray-a px-4 py-2 h-24 resize-none"
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="w-full flex justify-end">
+
+        {/* --- 4. UI for submission status and button --- */}
+        <div className="w-full flex justify-end items-center gap-4 pt-2">
+          {statusMessage && <p className="text-sm">{statusMessage}</p>}
           <Button type="submit" variant={"ghost"} disabled={isSubmitting}>
             {isSubmitting ? "Sending..." : "Send"}
           </Button>
         </div>
-        {submissionStatus === "success" && (
-          <p className="text-sm text-green-600 mt-2">
-            Message sent successfully!
-          </p>
-        )}
-        {submissionStatus === "error" && (
-          <p className="text-sm text-red-600 mt-2">
-            Something went wrong. Please try again.
-          </p>
-        )}
       </form>
     </Form>
   );
