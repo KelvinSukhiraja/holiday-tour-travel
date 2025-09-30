@@ -5,7 +5,6 @@ import { PortableText, type PortableTextBlock } from "@portabletext/react";
 import { X } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Footer from "@/components/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 

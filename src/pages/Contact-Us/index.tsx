@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import HeroSection from "@/components/Hero";
 import ContactUs1 from "@/assets/CONTACT-US/1.jpg";
 import Contact from "../Homepage/Contact";

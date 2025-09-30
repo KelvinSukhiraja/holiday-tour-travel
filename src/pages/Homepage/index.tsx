@@ -2,7 +2,6 @@ import HeroSection from "@/components/Hero";
 import Contact from "./Contact";
 import Introduction from "../../components/Introduction";
 import backgroundMp4 from "@/assets/HOME/background.mp4";
-import Footer from "@/components/Footer";
 import ImageStackScroll from "../ScrollSection";
 
 const Homepage = () => {
