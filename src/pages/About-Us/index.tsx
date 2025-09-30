@@ -30,7 +30,6 @@ const AboutUs = () => {
       {/* Third Section - Clients */}
       <Clients />
       {/* Footer Section - Clients */}
-      <Footer />
     </>
   );
 };

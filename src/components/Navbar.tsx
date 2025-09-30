@@ -1,13 +1,20 @@
 // Navbar.tsx (Updated)
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { navItems } from "@/lib/utils";
+// import { navItems } from "@/lib/utils";
+import { navItems as originalNavItems } from "@/lib/utils";
 import MobileMenu from "./ui/mobile-menu";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { NavItem } from "./NavItem";
 
-export function Navbar({ theme }: { theme: "light" | "dark" }) {
+export function Navbar({
+  theme,
+  settings,
+}: {
+  theme: "light" | "dark";
+  settings: boolean | undefined;
+}) {
   useGSAP(() => {
     gsap.from(".navItems", {
       opacity: 0,
@@ -23,6 +30,15 @@ export function Navbar({ theme }: { theme: "light" | "dark" }) {
   const themeText = theme === "light" ? "text-white-a" : "text-A";
   const themeBg = theme === "light" ? "bg-A" : "bg-white-a";
   const themeLogo = theme === "light" ? "/LOGO-WHITE.png" : "/LOGO.png";
+
+  const navItems = originalNavItems.filter((item) => {
+    // If the item is 'Travel Fair', only include it if showEventPage is true
+    if (item.href === "/travel-fair") {
+      return settings;
+    }
+    // Otherwise, always include the item
+    return true;
+  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -70,7 +86,7 @@ export function Navbar({ theme }: { theme: "light" | "dark" }) {
         ))}
       </nav>
 
-      <MobileMenu theme={theme} />
+      <MobileMenu theme={theme} navItems={navItems} />
     </header>
   );
 }

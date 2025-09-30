@@ -13,6 +13,18 @@ export const navItems = [
   { label: "Contact Us", href: "/contact-us" },
 ];
 
+export function getNavItems(settings: { showTravelFair: boolean }) {
+  return [
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about-us" },
+    { label: "Inspiration", href: "/inspiration" },
+    ...(settings.showTravelFair
+      ? [{ label: "Travel Fair", href: "/travel-fair" }]
+      : []),
+    { label: "Contact Us", href: "/contact-us" },
+  ];
+}
+
 import asiaImg from "@/assets/INSPIRATION/ASIA.jpg";
 import americaImg from "@/assets/INSPIRATION/AMERICA.jpg";
 import antarticaImg from "@/assets/INSPIRATION/ANTARTICA.jpg";

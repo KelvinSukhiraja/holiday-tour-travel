@@ -32,7 +32,6 @@ const Homepage = () => {
       {/* Contact Section */}
       <Contact />
       {/* Footer Section */}
-      <Footer />
     </>
   );
 };

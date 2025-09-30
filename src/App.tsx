@@ -10,26 +10,44 @@ import { Layout } from "./pages/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
+import { useEffect, useState } from "react";
+import { getSiteSettings } from "./lib/sanityClient";
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
 const App = () => {
   const location = useLocation();
 
+  const [settings, setSettings] = useState<{ showEventPage: boolean } | null>(
+    null
+  );
+
+  console.log("settings", settings);
+
+  useEffect(() => {
+    getSiteSettings().then(setSettings);
+  }, []);
+
   return (
     <>
       <ScrollToTop />
       {/* <AnimatePresence mode="wait"> */}
       <Routes location={location} key={location.pathname}>
-        <Route element={<Layout theme="dark" />}>
+        <Route
+          element={<Layout theme="dark" settings={settings?.showEventPage} />}
+        >
           <Route path="/" element={<Homepage />} />
           <Route path="/inspiration" element={<Inspiration />} />
           <Route path="/blogs/:region/:id" element={<BlogDetail />} />
         </Route>
 
-        <Route element={<Layout theme="light" />}>
+        <Route
+          element={<Layout theme="light" settings={settings?.showEventPage} />}
+        >
           <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/travel-fair" element={<TravelFair />} />
+          {settings?.showEventPage && (
+            <Route path="/travel-fair" element={<TravelFair />} />
+          )}
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/blogs/:region" element={<Blog />} />
         </Route>

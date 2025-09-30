@@ -31,7 +31,6 @@ just fill in a few details."
         />
       </section>
       {/* Footer Section - Clients */}
-      <Footer />
     </>
   );
 };

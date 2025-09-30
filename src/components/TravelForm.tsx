@@ -26,7 +26,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { cn, months, sections, travels_type } from "@/lib/utils";
 import countries from "world-countries";
 import {
@@ -38,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useState } from "react";
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full name is required"),
@@ -69,10 +70,37 @@ export default function TravelForm() {
     },
   });
 
-  function onSubmit(values: FormValues) {
-    // Here you would typically send the data to your API
-    console.log(values);
-    alert("Form submitted! Check the console for the data.");
+  const [loading, setLoading] = useState(false);
+
+  async function onSubmit(values: FormValues) {
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: "0ca1327d-2a43-459f-a33a-0be4f934677c", // 👈 replace with your Web3Forms access key
+          subject: "New Travel Inquiry",
+          from_name: "Website Travel Form",
+          ...values,
+        }),
+      });
+
+      setLoading(true);
+      const result = await res.json();
+      if (result.success) {
+        setLoading(false);
+        // alert("Message sent successfully!");
+        form.reset();
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Please try again later.");
+    }
   }
 
   const countryList = countries
@@ -235,7 +263,7 @@ export default function TravelForm() {
           )}
         />
 
-        {/* Type of Travel ToggleGroup */}
+        {/* Travel Type */}
         <FormField
           control={form.control}
           name="travelType"
@@ -266,7 +294,7 @@ export default function TravelForm() {
           )}
         />
 
-        {/* Budget Select */}
+        {/* Budget */}
         <FormField
           control={form.control}
           name="budget"
@@ -301,7 +329,7 @@ export default function TravelForm() {
           )}
         />
 
-        {/* Preferred Travel Month Range */}
+        {/* Travel Month Range */}
         <div className="flex flex-col gap-y-6 md:flex-row md:space-x-4">
           <FormField
             control={form.control}
@@ -365,10 +393,18 @@ export default function TravelForm() {
           <Button
             type="submit"
             size="lg"
-            variant={"ghost"}
-            className="hover:bg-A hover:text-white ease-in-out duration-300"
+            variant="ghost"
+            disabled={loading}
+            className="hover:bg-A hover:text-white ease-in-out duration-300 flex items-center gap-2"
           >
-            Send Message
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin h-4 w-4" />
+                Sending...
+              </>
+            ) : (
+              "Send Message"
+            )}
           </Button>
         </div>
       </form>

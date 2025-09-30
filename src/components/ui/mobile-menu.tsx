@@ -1,10 +1,21 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
-import { navItems, socials } from "@/lib/utils";
+import { socials } from "@/lib/utils";
 import { Link } from "react-router-dom";
 
-const MobileMenu = ({ theme }: { theme: "light" | "dark" }) => {
+interface NavItemProps {
+  href: string;
+  label: string;
+}
+
+const MobileMenu = ({
+  theme,
+  navItems,
+}: {
+  theme: "light" | "dark";
+  navItems: NavItemProps[];
+}) => {
   const [open, setOpen] = useState(false);
   const themeIcon = theme === "light" ? "stroke-white" : "stroke-A";
 

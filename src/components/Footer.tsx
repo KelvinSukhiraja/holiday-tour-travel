@@ -1,4 +1,4 @@
-import { navItems, socials } from "@/lib/utils";
+import { navItems as originalNavItems, socials } from "@/lib/utils";
 import { Separator } from "@radix-ui/react-separator";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -9,8 +9,15 @@ import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Footer = () => {
+const Footer = ({ settings }: { settings: boolean | undefined }) => {
   const footerRef = useRef(null);
+
+  const navItems = originalNavItems.filter((item) => {
+    if (item.href === "/travel-fair") {
+      return settings;
+    }
+    return true;
+  });
 
   useGSAP(
     () => {

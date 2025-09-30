@@ -204,7 +204,6 @@ export function BlogDetail() {
         )}
       </div>
       {/* Footer */}
-      <Footer />
     </section>
   );
 }

@@ -23,9 +23,7 @@ const ContactUs = () => {
       <section>
         <Contact />
       </section>
-      <section>
-        <Footer />
-      </section>
+      <section></section>
     </>
   );
 };

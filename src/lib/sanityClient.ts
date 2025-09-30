@@ -6,3 +6,7 @@ export const client = createClient({
   apiVersion: "2023-05-03",
   useCdn: true,
 });
+
+export async function getSiteSettings() {
+  return client.fetch(`*[_type == "eventPage"][0]{showEventPage}`);
+}
